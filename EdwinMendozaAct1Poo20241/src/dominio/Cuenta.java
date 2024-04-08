@@ -27,6 +27,10 @@ public class Cuenta {
         this.cliente = cliente;
     }
 
+    public void setCodigoCuentaCliente(String codigoCuentaCliente) {
+        this.codigoCuentaCliente = codigoCuentaCliente;
+    }
+
     public int getId() {
         return id;
     }

@@ -1,5 +1,6 @@
 package dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Banco {
@@ -16,7 +17,7 @@ public class Banco {
     public Banco(String nombre, String CodigoIdentificador, Sucursal sucursal) {
         this.nombre = nombre;
         this.codigoIdentificador = CodigoIdentificador;
-        this.sucursales.add(sucursal);
+        this.sucursales = new ArrayList<Sucursal>();
 
     }
 

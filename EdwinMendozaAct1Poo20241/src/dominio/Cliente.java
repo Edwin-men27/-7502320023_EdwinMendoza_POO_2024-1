@@ -1,5 +1,6 @@
 package dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente {
@@ -19,7 +20,7 @@ public class Cliente {
         this.identificacion = identificacion;
         this.direccion = direccion;
         this.saldo = saldo;
-        this.cuentas.add(cuenta);
+        this.cuentas =new ArrayList<Cuenta>();
     }
 
     public String getnombre() {

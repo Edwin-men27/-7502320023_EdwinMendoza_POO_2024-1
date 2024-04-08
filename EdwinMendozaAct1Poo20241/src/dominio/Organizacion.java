@@ -1,5 +1,6 @@
 package dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Organizacion extends Cliente {
@@ -19,7 +20,7 @@ public class Organizacion extends Cliente {
         this.cantidadEmpleados = cantidadEmpleados;
         this.tipoOrganizacion = tipoOrganizacion;
         this.concepto = concepto;
-        this.representantes.add(representantes);
+        this.representantes = new ArrayList<>();
     }
 
     public int getId() {

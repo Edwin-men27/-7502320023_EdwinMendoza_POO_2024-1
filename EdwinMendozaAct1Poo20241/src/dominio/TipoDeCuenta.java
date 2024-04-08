@@ -3,6 +3,7 @@ package dominio;
 public class TipoDeCuenta {
 
     private int id;
+    private String identificacion;
     private String nombre;
     private String beneficios;    
     private float porcentajeAmortizacion;
@@ -12,11 +13,12 @@ public class TipoDeCuenta {
 
     }
 
-    public TipoDeCuenta(String nombre, String beneficios, float porcentajeAmortizacion, float saldoMinimo) {
+    public TipoDeCuenta(String identificacion,String nombre, String beneficios, float porcentajeAmortizacion, float saldoMinimo) {
         this.porcentajeAmortizacion = porcentajeAmortizacion;
         this.nombre = nombre;
         this.beneficios = beneficios;
         this.saldoMinimo = saldoMinimo;
+        this.identificacion = identificacion;
     }
 
     public int getId() {
@@ -53,6 +55,14 @@ public class TipoDeCuenta {
 
     public void setSaldoMinimo(float saldoMinimo) {
         this.saldoMinimo = saldoMinimo;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 
     @Override

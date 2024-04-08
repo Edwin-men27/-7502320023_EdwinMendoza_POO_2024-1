@@ -3,6 +3,7 @@ package dominio;
 public class Empleado {
 
     private int id;
+    private String identificacion;
     private String ciudad;
     private String cargo;
     private PersonaFisica empleado;
@@ -12,7 +13,8 @@ public class Empleado {
 
     }
 
-    public Empleado(String ciudad, String cargo, PersonaFisica empleado, Sucursal afiliado) {
+    public Empleado(String identificacion,String ciudad, String cargo, PersonaFisica empleado, Sucursal afiliado) {
+        this.identificacion = identificacion;
         this.ciudad = ciudad;
         this.cargo = cargo;
         this.empleado = empleado;
@@ -47,6 +49,15 @@ public class Empleado {
         return afiliado;
     }
 
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
+    }
+    
+    
     @Override
     public String toString() {
         return "Datos De Empleado" + "\n Ciudad=" + ciudad

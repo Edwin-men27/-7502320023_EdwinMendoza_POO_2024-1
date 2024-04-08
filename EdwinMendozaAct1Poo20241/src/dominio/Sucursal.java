@@ -1,5 +1,6 @@
 package dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sucursal {
@@ -25,8 +26,8 @@ public class Sucursal {
         this.informe = informe;
         this.nombre = nombre;
         this.banco = banco;
-        this.empleados.add(empleado);
-        this.cuentas.add(cuenta);
+        this.empleados = new ArrayList<>();
+        this.cuentas = new ArrayList<>();
     }
 
     public int getId() {
