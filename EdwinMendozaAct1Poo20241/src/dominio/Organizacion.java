@@ -20,7 +20,8 @@ public class Organizacion extends Cliente {
         this.cantidadEmpleados = cantidadEmpleados;
         this.tipoOrganizacion = tipoOrganizacion;
         this.concepto = concepto;
-        this.representantes = new ArrayList<>();
+        this.representantes = new ArrayList<RepresentanteOrganizacion>();
+        this.representantes.add(representantes);
     }
 
     public int getId() {
@@ -53,6 +54,11 @@ public class Organizacion extends Cliente {
 
     public List<RepresentanteOrganizacion> getRepresentantes() {
         return this.representantes;
+    }
+
+    public void setRepresentantes(RepresentanteOrganizacion representante) {
+        this.representantes = new ArrayList<RepresentanteOrganizacion>(); 
+        this.representantes.add(representante);
     }
 
     @Override

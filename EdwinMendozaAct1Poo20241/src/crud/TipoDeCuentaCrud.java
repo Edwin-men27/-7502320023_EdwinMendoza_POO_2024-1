@@ -27,7 +27,7 @@ public class TipoDeCuentaCrud implements InterfasCrud<TipoDeCuenta>{
     public void agregar(TipoDeCuenta objeto) throws Exception {
         try {
             if (ListaTipoDeCuentas.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("La cuenta ya se encuentra agregado en el sistema");
+                throw new Exception("La cuenta "+objeto.getIdentificacion()+" ya se encuentra agregado en el sistema");
             }
 
             ListaTipoDeCuentas.put(objeto.getIdentificacion(), objeto);
@@ -39,7 +39,7 @@ public class TipoDeCuentaCrud implements InterfasCrud<TipoDeCuenta>{
     public TipoDeCuenta buscar(String codigo) throws Exception {
         try {
             if (!ListaTipoDeCuentas.containsKey(codigo)) {
-                throw new Exception("La cuenta no se encuentra registrado");
+                throw new Exception("La cuenta con el codigo "+codigo+" no se encuentra registrado");
             }
             return ListaTipoDeCuentas.get(codigo);
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class TipoDeCuentaCrud implements InterfasCrud<TipoDeCuenta>{
     public void editar(TipoDeCuenta objeto) throws Exception {
        try {
             if (!ListaTipoDeCuentas.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("La cuenta no se encuentra registrado");
+                throw new Exception("La cuenta "+objeto.getIdentificacion()+" no se encuentra registrado");
             }
             ListaTipoDeCuentas.put(objeto.getIdentificacion(), objeto);
 
@@ -64,7 +64,7 @@ public class TipoDeCuentaCrud implements InterfasCrud<TipoDeCuenta>{
     public void eliminar(String codigo) throws Exception {
         try {
             if (!ListaTipoDeCuentas.containsKey(codigo)) {
-                throw new Exception("La cuenta no se encuentra en la base de datos");
+                throw new Exception("La cuenta con el codigo "+codigo+" no se encuentra en la base de datos");
             }
 
             ListaTipoDeCuentas.remove(codigo);
@@ -102,7 +102,7 @@ public class TipoDeCuentaCrud implements InterfasCrud<TipoDeCuenta>{
             tamaño = tiposDeCuentas.size();
 
             if (tamaño == 0) {
-                throw new Exception("No existen Cuentas en el sistema, El numero de elementos de la lista es: ");
+                throw new Exception("No existen Cuentas en el sistema");
             }
 
             return tamaño;

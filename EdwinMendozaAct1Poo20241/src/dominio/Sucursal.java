@@ -78,6 +78,10 @@ public class Sucursal {
         return banco;
     }
 
+    public void setBanco(Banco banco) {
+        this.banco = banco;
+    }
+
     public List<Empleado> getEmpleados() {
         return this.empleados;
     }

@@ -28,7 +28,7 @@ import java.util.Map;
     public void agregar(Empleado objeto) throws Exception {
         try {
             if (listaEmpleado.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("El empleado ya se encuentra agregado en el sistema");
+                throw new Exception("El empleado "+objeto.getIdentificacion()+" ya se encuentra agregado en el sistema");
             }
 
             listaEmpleado.put(objeto.getIdentificacion(), objeto);
@@ -40,7 +40,7 @@ import java.util.Map;
     public Empleado buscar(String codigo) throws Exception {
         try {
             if (!listaEmpleado.containsKey(codigo)) {
-                throw new Exception("El empleado no se encuentra registrado");
+                throw new Exception("El empleado con el codigo "+codigo+" no se encuentra registrado");
             }
             return listaEmpleado.get(codigo);
         } catch (Exception e) {
@@ -53,7 +53,7 @@ import java.util.Map;
     public void editar(Empleado objeto) throws Exception {
         try {
             if (!listaEmpleado.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("El empleado no se encuentra registrado");
+                throw new Exception("El empleado "+objeto.getIdentificacion()+" no se encuentra registrado");
             }
             listaEmpleado.put(objeto.getIdentificacion(), objeto);
 
@@ -65,7 +65,7 @@ import java.util.Map;
     public void eliminar(String codigo) throws Exception {
         try {
             if (!listaEmpleado.containsKey(codigo)) {
-                throw new Exception("El empleado no se encuentra en la base de datos");
+                throw new Exception("El empleado con el codigo "+codigo+" no se encuentra en la base de datos");
             }
 
             listaEmpleado.remove(codigo);
@@ -103,7 +103,7 @@ import java.util.Map;
             tamaño = empleados.size();
 
             if (tamaño == 0) {
-                throw new Exception("No existen empleados en el sistema, El numero de elementos de la lista es: ");
+                throw new Exception("No existen empleados en el sistema");
             }
 
             return tamaño;

@@ -28,7 +28,7 @@ public class CuentaCrud implements InterfasCrud<Cuenta> {
     public void agregar(Cuenta objeto) throws Exception {
         try {
             if (listaCuenta.containsKey(objeto.getCodigoCuentaCliente())) {
-                throw new Exception("La cuenta ya se encuentra agregado en el sistema");
+                throw new Exception("La cuenta "+objeto.getCodigoCuentaCliente()+" ya se encuentra agregado en el sistema");
             }
 
             listaCuenta.put(objeto.getCodigoCuentaCliente(), objeto);
@@ -41,7 +41,7 @@ public class CuentaCrud implements InterfasCrud<Cuenta> {
     public Cuenta buscar(String codigo) throws Exception {
         try {
             if (!listaCuenta.containsKey(codigo)) {
-                throw new Exception("La cuenta no se encuentra registrado");
+                throw new Exception("La cuenta con el codigo "+codigo+" no se encuentra registrado");
             }
             return listaCuenta.get(codigo);
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class CuentaCrud implements InterfasCrud<Cuenta> {
     public void editar(Cuenta objeto) throws Exception {
         try {
             if (!listaCuenta.containsKey(objeto.getCodigoCuentaCliente())) {
-                throw new Exception("La Cuenta no se encuentra registrado");
+                throw new Exception("La Cuenta "+objeto.getCodigoCuentaCliente()+" no se encuentra registrado");
             }
             listaCuenta.put(objeto.getCodigoCuentaCliente(), objeto);
 
@@ -68,7 +68,7 @@ public class CuentaCrud implements InterfasCrud<Cuenta> {
     public void eliminar(String codigo) throws Exception {
         try {
             if (!listaCuenta.containsKey(codigo)) {
-                throw new Exception("La cuenta no se encuentra en la base de datos");
+                throw new Exception("La cuenta con el codigo "+codigo+" no se encuentra en la base de datos");
             }
 
             listaCuenta.remove(codigo);

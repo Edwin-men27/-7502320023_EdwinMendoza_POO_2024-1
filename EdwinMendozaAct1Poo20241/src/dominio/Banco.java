@@ -25,11 +25,11 @@ public class Banco {
         return id;
     }
 
-    public String getnombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setnombre(String nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
@@ -45,9 +45,17 @@ public class Banco {
         return this.sucursales;
     }
 
+    public void setSucursales(Sucursal sucursal) {
+        this.sucursales = new ArrayList<Sucursal>();
+        this.sucursales.add(sucursal);
+    }
+
+    
     @Override
     public String toString() {
-        return "Datos del Banco" + "\n Nombre=" + nombre
-                + "\n Codigo De Identificacion" + codigoIdentificador;
+        return "---------------------------------------------------------------"+
+                "\n Datos del Banco" + "\n Nombre: " + nombre
+                + "\n Codigo De Identificacion: " + codigoIdentificador
+                + "\n Lista de Sucursales: " + sucursales;
     }
 }

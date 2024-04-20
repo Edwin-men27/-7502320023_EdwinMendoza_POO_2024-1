@@ -45,8 +45,16 @@ public class Empleado {
         return empleado;
     }
 
+    public void setEmpleado(PersonaFisica empleado) {
+        this.empleado = empleado;
+    }
+
     public Sucursal getAfiliado() {
         return afiliado;
+    }
+
+    public void setAfiliado(Sucursal afiliado) {
+        this.afiliado = afiliado;
     }
 
     public String getIdentificacion() {

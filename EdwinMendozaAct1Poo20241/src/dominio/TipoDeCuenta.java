@@ -4,18 +4,18 @@ public class TipoDeCuenta {
 
     private int id;
     private String identificacion;
-    private String nombre;
+    private String tipo;
     private String beneficios;    
-    private float porcentajeAmortizacion;
+    private double porcentajeAmortizacion;
     private float saldoMinimo;
 
     public TipoDeCuenta() {
 
     }
 
-    public TipoDeCuenta(String identificacion,String nombre, String beneficios, float porcentajeAmortizacion, float saldoMinimo) {
+    public TipoDeCuenta(String identificacion,String tipo, String beneficios, double porcentajeAmortizacion, float saldoMinimo) {
         this.porcentajeAmortizacion = porcentajeAmortizacion;
-        this.nombre = nombre;
+        this.tipo = tipo;
         this.beneficios = beneficios;
         this.saldoMinimo = saldoMinimo;
         this.identificacion = identificacion;
@@ -25,12 +25,12 @@ public class TipoDeCuenta {
         return id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getBeneficios() {
@@ -41,11 +41,11 @@ public class TipoDeCuenta {
         this.beneficios = beneficios;
     }
 
-    public float getPorcentajeAmortizacion() {
+    public double getPorcentajeAmortizacion() {
         return porcentajeAmortizacion;
     }
 
-    public void setPorcentajeAmortizacion(float porcentajeAmortizacion) {
+    public void setPorcentajeAmortizacion(double porcentajeAmortizacion) {
         this.porcentajeAmortizacion = porcentajeAmortizacion;
     }
 
@@ -67,7 +67,7 @@ public class TipoDeCuenta {
 
     @Override
     public String toString() {
-        return "Tipo De Cuenta" + "\n Nombre: " + nombre
+        return "Tipo De Cuenta" + "\n Nombre: " + tipo
                 + "\nPorcentaje De Amortizacion: " + porcentajeAmortizacion
                 + "\nBeneficios: " + beneficios
                 + "\nSaldo Minimo: " + saldoMinimo;

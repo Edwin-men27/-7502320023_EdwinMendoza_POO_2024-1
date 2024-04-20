@@ -75,8 +75,16 @@ public class Cuenta {
         return cliente;
     }
 
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public TipoDeCuenta getTipoDeCuenta() {
         return tipoDeCuenta;
+    }
+
+    public void setTipoDeCuenta(TipoDeCuenta tipoDeCuenta) {
+        this.tipoDeCuenta = tipoDeCuenta;
     }
 
     @Override

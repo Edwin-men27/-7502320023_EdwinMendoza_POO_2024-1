@@ -4,7 +4,6 @@
  */
 package crud;
 
-import dominio.Banco;
 import dominio.Cliente;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public class ClienteCrud implements InterfasCrud<Cliente>{
     public void agregar(Cliente objeto) throws Exception {
         try {
             if (clientes.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("El Cliente ya se encuentra agregado en el sistema");
+                throw new Exception("El Cliente "+objeto.getNombre()+" ya se encuentra agregado en el sistema");
             }
 
             clientes.put(objeto.getIdentificacion(), objeto);
@@ -41,7 +40,7 @@ public class ClienteCrud implements InterfasCrud<Cliente>{
     public Cliente buscar(String codigo) throws Exception {
     try {
             if (!clientes.containsKey(codigo)) {
-                throw new Exception("El Cliente no se encuentra registrado");
+                throw new Exception("El Cliente con el codigo "+codigo+" no se encuentra registrado");
             }
             return clientes.get(codigo);
         } catch (Exception e) {
@@ -56,7 +55,7 @@ public class ClienteCrud implements InterfasCrud<Cliente>{
         
         try {
             if (!clientes.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("El Cliente no se encuentra registrado");
+                throw new Exception("El Cliente "+objeto.getNombre()+" no se encuentra registrado");
             }
             clientes.put(objeto.getIdentificacion(), objeto);
 
@@ -69,7 +68,7 @@ public class ClienteCrud implements InterfasCrud<Cliente>{
     public void eliminar(String codigo) throws Exception {
     try {
             if (!clientes.containsKey(codigo)) {
-                throw new Exception("El Cliente no se encuentra en la base de datos");
+                throw new Exception("El Cliente con el codigo "+codigo+" no se encuentra en la base de datos");
             }
 
             clientes.remove(codigo);
@@ -83,7 +82,7 @@ public class ClienteCrud implements InterfasCrud<Cliente>{
         List<Cliente> listCliente = new ArrayList<>();
         try {
             if (clientes.isEmpty()) {
-                throw new Exception("No existen bancos en el sistema");
+                throw new Exception("No existen clientes en el sistema");
             }
 
             for (Map.Entry<String, Cliente> parte : clientes.entrySet()) {
@@ -110,7 +109,7 @@ public class ClienteCrud implements InterfasCrud<Cliente>{
             tamaño = numeroDeClientes.size();
             
             if (tamaño == 0) {
-                throw new Exception("No existen Bancos en el sistema, El numero de elementos de la lista es: ");
+                throw new Exception("No existen clientes en el sistema");
             }
             
             return tamaño;

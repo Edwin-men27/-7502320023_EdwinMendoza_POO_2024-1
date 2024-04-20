@@ -27,7 +27,7 @@ public class RepresentanteOrganizacionCrud implements InterfasCrud<Representante
     public void agregar(RepresentanteOrganizacion objeto) throws Exception {
         try {
             if (representantes.containsKey(objeto.getNombre())) {
-                throw new Exception("El Representante ya se encuentra agregado en la base de datos");
+                throw new Exception("El Representante "+objeto.getNombre()+" ya se encuentra agregado en la base de datos");
             }
 
             representantes.put(objeto.getNombre(), objeto);
@@ -39,7 +39,7 @@ public class RepresentanteOrganizacionCrud implements InterfasCrud<Representante
     public RepresentanteOrganizacion buscar(String codigo) throws Exception {
         try {
             if (!representantes.containsKey(codigo)) {
-                throw new Exception("El Representante no se encuentra registrado");
+                throw new Exception("El Representante con el codigo "+codigo+" no se encuentra registrado");
             }
             return representantes.get(codigo);
         } catch (Exception e) {
@@ -64,7 +64,7 @@ public class RepresentanteOrganizacionCrud implements InterfasCrud<Representante
     public void eliminar(String codigo) throws Exception {
         try {
             if (!representantes.containsKey(codigo)) {
-                throw new Exception("El representante no se encuentra en la base de datos");
+                throw new Exception("El representante con el codigo "+codigo+" no se encuentra en la base de datos");
             }
 
             representantes.remove(codigo);

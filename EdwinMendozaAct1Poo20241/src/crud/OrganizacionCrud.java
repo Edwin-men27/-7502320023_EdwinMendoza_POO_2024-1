@@ -28,7 +28,7 @@ public class OrganizacionCrud implements InterfasCrud<Organizacion> {
     public void agregar(Organizacion objeto) throws Exception {
         try {
             if (listaOrganizaciones.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("La Organizacion ya se encuentra agregado en el sistema");
+                throw new Exception("La Organizacion "+objeto.getNombre()+" ya se encuentra agregado en el sistema");
             }
 
             listaOrganizaciones.put(objeto.getIdentificacion(), objeto);
@@ -41,7 +41,7 @@ public class OrganizacionCrud implements InterfasCrud<Organizacion> {
     public Organizacion buscar(String codigo) throws Exception {
         try {
             if (!listaOrganizaciones.containsKey(codigo)) {
-                throw new Exception("La Organizacion no se encuentra registrado");
+                throw new Exception("La Organizacion con el codigo "+codigo+" no se encuentra registrado");
             }
             return listaOrganizaciones.get(codigo);
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class OrganizacionCrud implements InterfasCrud<Organizacion> {
     public void editar(Organizacion objeto) throws Exception {
         try {
             if (!listaOrganizaciones.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("La Organizacion no se encuentra registrado");
+                throw new Exception("La Organizacion "+objeto.getNombre()+" no se encuentra registrado");
             }
             listaOrganizaciones.put(objeto.getIdentificacion(), objeto);
 
@@ -68,7 +68,7 @@ public class OrganizacionCrud implements InterfasCrud<Organizacion> {
     public void eliminar(String codigo) throws Exception {
         try {
             if (!listaOrganizaciones.containsKey(codigo)) {
-                throw new Exception("La Organizacion no se encuentra en la base de datos");
+                throw new Exception("La Organizacion con el codigo "+codigo+" no se encuentra en la base de datos");
             }
 
             listaOrganizaciones.remove(codigo);
@@ -108,7 +108,7 @@ public class OrganizacionCrud implements InterfasCrud<Organizacion> {
             tamaño = organizaciones.size();
 
             if (tamaño == 0) {
-                throw new Exception("No existen organizaciones en el sistema, El numero de elementos de la lista es: ");
+                throw new Exception("No existen organizaciones en el sistema");
             }
 
             return tamaño;

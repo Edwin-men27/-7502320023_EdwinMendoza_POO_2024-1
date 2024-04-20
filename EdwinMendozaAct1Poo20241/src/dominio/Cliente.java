@@ -21,9 +21,10 @@ public class Cliente {
         this.direccion = direccion;
         this.saldo = saldo;
         this.cuentas =new ArrayList<Cuenta>();
+        this.cuentas.add(cuenta);
     }
 
-    public String getnombre() {
+    public String getNombre() {
         return nombre;
     }
 
@@ -59,6 +60,12 @@ public class Cliente {
         return this.cuentas;
     }
 
+    public void setCuentas(Cuenta cuenta) {
+        this.cuentas = new ArrayList<Cuenta>();
+        this.cuentas.add(cuenta);
+    }
+
+    
     @Override
     public String toString() {
         return "Datos DEL Cliente" + "\n Nombre=" + nombre

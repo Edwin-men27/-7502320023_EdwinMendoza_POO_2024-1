@@ -31,6 +31,10 @@ public class RepresentanteOrganizacion {
         return organizacion;
     }
 
+    public void setOrganizacion(Organizacion organizacion) {
+        this.organizacion = organizacion;
+    }
+
     @Override
     public String toString() {
         return "Representante Organizacion" + "\nNombre=" + nombre

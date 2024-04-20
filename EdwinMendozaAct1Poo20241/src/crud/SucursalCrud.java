@@ -40,7 +40,7 @@ public class SucursalCrud implements InterfasCrud<Sucursal> {
     public Sucursal buscar(String codigo) throws Exception {
         try {
             if (!sucursales.containsKey(codigo)) {
-                throw new Exception("La sucursal no se encuentra registrado");
+                throw new Exception("La sucursal con el codigo "+codigo+" no se encuentra registrado");
             }
             return sucursales.get(codigo);
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class SucursalCrud implements InterfasCrud<Sucursal> {
     public void eliminar(String codigo) throws Exception {
                try {
             if (!sucursales.containsKey(codigo)) {
-                throw new Exception("la sucursal no se encuentra en la base de datos");
+                throw new Exception("la sucursal con el codigo "+codigo+" no se encuentra en la base de datos");
             }
 
             sucursales.remove(codigo);

@@ -27,7 +27,7 @@ public class PersonaFisicaCrud implements InterfasCrud<PersonaFisica> {
     public void agregar(PersonaFisica objeto) throws Exception {
         try {
             if (listaPersonaFisica.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("La Persona ya se encuentra agregado en el sistema");
+                throw new Exception("La Persona  "+objeto.getNombre()+"ya se encuentra agregado en el sistema");
             }
 
             listaPersonaFisica.put(objeto.getIdentificacion(), objeto);
@@ -40,7 +40,7 @@ public class PersonaFisicaCrud implements InterfasCrud<PersonaFisica> {
     public PersonaFisica buscar(String codigo) throws Exception {
         try {
             if (!listaPersonaFisica.containsKey(codigo)) {
-                throw new Exception("La Persona no se encuentra registrado");
+                throw new Exception("La Persona con el codigo "+codigo+" no se encuentra registrado");
             }
             return listaPersonaFisica.get(codigo);
         } catch (Exception e) {
@@ -54,7 +54,7 @@ public class PersonaFisicaCrud implements InterfasCrud<PersonaFisica> {
     public void editar(PersonaFisica objeto) throws Exception {
         try {
             if (!listaPersonaFisica.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("La Persona no se encuentra registrado");
+                throw new Exception("La Persona "+objeto.getNombre()+" no se encuentra registrado");
             }
             listaPersonaFisica.put(objeto.getIdentificacion(), objeto);
 
@@ -67,7 +67,7 @@ public class PersonaFisicaCrud implements InterfasCrud<PersonaFisica> {
     public void eliminar(String codigo) throws Exception {
         try {
             if (!listaPersonaFisica.containsKey(codigo)) {
-                throw new Exception("La Persona no se encuentra en la base de datos");
+                throw new Exception("La Persona con el codigo "+codigo+" no se encuentra en la base de datos");
             }
 
             listaPersonaFisica.remove(codigo);
@@ -107,7 +107,7 @@ public class PersonaFisicaCrud implements InterfasCrud<PersonaFisica> {
             tamaño = personas.size();
 
             if (tamaño == 0) {
-                throw new Exception("No existen personas en el sistema, El numero de elementos de la lista es: ");
+                throw new Exception("No existen personas en el sistema");
             }
 
             return tamaño;

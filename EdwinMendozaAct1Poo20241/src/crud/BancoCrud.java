@@ -13,7 +13,7 @@ import Model.InterfasCrud;
  */
 public class BancoCrud implements InterfasCrud<Banco> {
 
-    private HashMap<Integer, Banco> bancos = new HashMap<>();
+    private HashMap<String, Banco> bancos = new HashMap<>();
 
     public BancoCrud() {
         this.bancos = new HashMap<>();
@@ -24,11 +24,11 @@ public class BancoCrud implements InterfasCrud<Banco> {
     public void agregar(Banco objeto) throws Exception {
 
         try {
-            if (bancos.containsKey(objeto.getId())) {
-                throw new Exception("El Banco ya se encuentra agregado en la base de datos");
+            if (bancos.containsKey(objeto.getCodigoIdentificador())) {
+                throw new Exception("El Banco "+objeto.getNombre()+" ya se encuentra agregado en la base de datos");
             }
 
-            bancos.put(objeto.getId(), objeto);
+            bancos.put(objeto.getCodigoIdentificador(), objeto);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -40,7 +40,7 @@ public class BancoCrud implements InterfasCrud<Banco> {
 
         try {
             if (!bancos.containsKey(codigo)) {
-                throw new Exception("El banco no se encuentra registrado");
+                throw new Exception("El banco con el codigo "+codigo+" no se encuentra registrado");
             }
             return bancos.get(codigo);
         } catch (Exception e) {
@@ -54,10 +54,10 @@ public class BancoCrud implements InterfasCrud<Banco> {
     public void editar(Banco objeto) throws Exception {
 
         try {
-            if (!bancos.containsKey(objeto.getId())) {
-                throw new Exception("El banco no se encuentra registrado");
+            if (!bancos.containsKey(objeto.getNombre())) {
+                throw new Exception("El banco "+objeto.getNombre()+" no se encuentra registrado");
             }
-            bancos.put(objeto.getId(), objeto);
+            bancos.put(objeto.getCodigoIdentificador(), objeto);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -69,7 +69,7 @@ public class BancoCrud implements InterfasCrud<Banco> {
     public void eliminar(String codigo) throws Exception {
         try {
             if (!bancos.containsKey(codigo)) {
-                throw new Exception("El banco no se encuentra registrado");
+                throw new Exception("El banco con el codigo "+codigo+" no se encuentra registrado");
             }
 
             bancos.remove(codigo);
@@ -88,8 +88,8 @@ public class BancoCrud implements InterfasCrud<Banco> {
                 throw new Exception("No existen bancos en el sistema");
             }
 
-            for (Map.Entry<Integer, Banco> parte : bancos.entrySet()) {
-                int id = parte.getKey();
+            for (Map.Entry<String, Banco> parte : bancos.entrySet()) {
+                String codigo = parte.getKey();
                 Banco bano = parte.getValue();
 
                 ban.add(bano);
@@ -112,7 +112,7 @@ public class BancoCrud implements InterfasCrud<Banco> {
             tamaño = numeroDeBancos.size();
             
             if (tamaño == 0) {
-                throw new Exception("No existen Bancos en el sistema, El numero de elementos de la lista es: ");
+                throw new Exception("No existen Bancos en el sistema");
             }
             
             return tamaño;
