@@ -45,12 +45,11 @@ public class Banco {
         return this.sucursales;
     }
 
-    public void setSucursales(Sucursal sucursal) {
+    public void setSucursales(Sucursal sucursal) { //cambiar el nombre a addsucursal
         this.sucursales = new ArrayList<Sucursal>();
         this.sucursales.add(sucursal);
     }
 
-    
     @Override
     public String toString() {
         return "---------------------------------------------------------------"+

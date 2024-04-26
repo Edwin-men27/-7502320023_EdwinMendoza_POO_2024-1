@@ -1,7 +1,6 @@
 package co.edu.udec.poo.edwinmendoza;
 
 import crud.BancoCrud;
-import crud.ClienteCrud;
 import crud.CuentaCrud;
 import crud.EmpleadoCrud;
 import crud.OrganizacionCrud;
@@ -11,7 +10,6 @@ import crud.SucursalCrud;
 import crud.TipoDeCuentaCrud;
 
 import dominio.Banco;
-import dominio.Cliente;
 import dominio.Cuenta;
 import java.util.Date;
 
@@ -21,7 +19,7 @@ import dominio.PersonaFisica;
 import dominio.RepresentanteOrganizacion;
 import dominio.Sucursal;
 import dominio.TipoDeCuenta;
-import java.util.List;
+
 
 public class Principal {
 
@@ -91,7 +89,6 @@ public class Principal {
         cuenta1.setDeposito(500.0f);
         cuenta1.setFechaApertura(new Date(16 / 03 / 2024));
         cuenta1.setCliente(cliente1);
-        cliente1.setCuentas(cuenta1);
         cuenta01.setTipo("Corriente");
         cuenta01.setBeneficios("No presenta");
         cuenta01.setIdentificacion("121256789");
@@ -194,14 +191,7 @@ public class Principal {
             listaRepresentantes.agregar(representante1);
             listaRepresentantes.agregar(representante2);
             
-//            System.out.println(listaBanco.listarTodo());
-//            System.out.println(listaCuenta.listarTodo());
-//            System.out.println(listaTipoDeCuenta.listarTodo());
-//            System.out.println(listaSucursal.listarTodo());
-//            System.out.println(listaEmpleado.listarTodo());
-//            System.out.println(listaOrganizacion.listarTodo());
-//            System.out.println(listaPersonaFisica.listarTodo());
-//            System.out.println(listaRepresentantes.listarTodo());
+            
             
 
         } catch (Exception e) {
@@ -212,22 +202,22 @@ public class Principal {
         
         try {
             
-//            listaBanco.buscar("123456");
-//            listaBanco.buscar("12345");
-//            listaSucursal.buscar("5454");
-//            listaSucursal.buscar("54545");
-//            listaPersonaFisica.buscar("00000");
-//            listaPersonaFisica.buscar("1234567890");
-//            listaCuenta.buscar("989854321");
-//            listaCuenta.buscar("989555521");
-//            listaTipoDeCuenta.buscar("000000001");
-//            listaTipoDeCuenta.buscar("121256789");
-//            listaEmpleado.buscar("0087676321");
-//            listaEmpleado.buscar("0087600001");
-//            listaOrganizacion.buscar("1234567890");
-//            listaOrganizacion.buscar("1334567790");
-//            listaRepresentantes.buscar("carlos");
-//            listaRepresentantes.buscar("matias");
+            listaBanco.buscar("123456");
+            listaBanco.buscar("12345");
+            listaSucursal.buscar("5454");
+            listaSucursal.buscar("54545");
+            listaPersonaFisica.buscar("00000");
+            listaPersonaFisica.buscar("1234567890");
+            listaCuenta.buscar("989854321");
+            listaCuenta.buscar("989555521");
+            listaTipoDeCuenta.buscar("000000001");
+            listaTipoDeCuenta.buscar("121256789");
+            listaEmpleado.buscar("0087676321");
+            listaEmpleado.buscar("0087600001");
+            listaOrganizacion.buscar("1234567890");
+            listaOrganizacion.buscar("1334567790");
+            listaRepresentantes.buscar("carlos");
+            listaRepresentantes.buscar("matias");
             
 
       
@@ -236,10 +226,16 @@ public class Principal {
             System.out.println(e.getMessage());
         }
          System.out.println("usamos el metodo editar");
+         
+         banco1.setNombre("Banco Z");
+         cuenta02.setSaldoMinimo(1500.0f);
+         empleado2.setCargo("Director");
+         
         try {
             listaBanco.editar(banco1);
             listaPersonaFisica.editar(cliente3);
             listaTipoDeCuenta.editar(cuenta02);
+            listaEmpleado.editar(empleado2);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -265,6 +261,20 @@ public class Principal {
             System.out.println("El numero de representantes es: "+listaRepresentantes.contar());
             
             
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+        System.out.println("usamos el metodo listar todo");
+        try {
+            System.out.println(listaBanco.listarTodo());
+            System.out.println(listaCuenta.listarTodo());
+            System.out.println(listaTipoDeCuenta.listarTodo());
+            System.out.println(listaSucursal.listarTodo());
+            System.out.println(listaEmpleado.listarTodo());
+            System.out.println(listaOrganizacion.listarTodo());
+            System.out.println(listaPersonaFisica.listarTodo());
+            System.out.println(listaRepresentantes.listarTodo());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
