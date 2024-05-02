@@ -1,31 +1,34 @@
 package dominio;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.LinkedList;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+
+@Entity
+@PrimaryKeyJoinColumn(referencedColumnName="Cliente_Organizacion")
 public class Organizacion extends Cliente {
-
-    private int id;
+  
+    @Basic
     private String tipoOrganizacion;
     private String cantidadEmpleados;
     private String concepto;
-    private List<RepresentanteOrganizacion> representantes;
+    
+    @OneToMany (mappedBy = "organizacionAfiliada")
+    private LinkedList<RepresentanteOrganizacion> representantes;
 
     public Organizacion() {
 
     }
 
-    public Organizacion(String nombre, String direccion, String identificacion, float saldo, String tipoOrganizacion, String cantidadEmpleados, String concepto, Cuenta cuenta, RepresentanteOrganizacion representantes) {
-        super(nombre, identificacion, direccion, saldo, cuenta);
-        this.cantidadEmpleados = cantidadEmpleados;
+    public Organizacion(String tipoOrganizacion, String cantidadEmpleados, String concepto, LinkedList<RepresentanteOrganizacion> representantes, int id, String nombre, String identificacion, String direccion, float saldo, LinkedList<Cuenta> cuentas) {
+        super(id, nombre, identificacion, direccion, saldo, cuentas);
         this.tipoOrganizacion = tipoOrganizacion;
+        this.cantidadEmpleados = cantidadEmpleados;
         this.concepto = concepto;
-        this.representantes = new ArrayList<RepresentanteOrganizacion>();
-        this.representantes.add(representantes);
-    }
-
-    public int getId() {
-        return id;
+        this.representantes = representantes;
     }
 
     public String getTipoOrganizacion() {
@@ -52,13 +55,12 @@ public class Organizacion extends Cliente {
         return concepto;
     }
 
-    public List<RepresentanteOrganizacion> getRepresentantes() {
-        return this.representantes;
+    public LinkedList<RepresentanteOrganizacion> getRepresentantes() {
+        return representantes;
     }
 
-    public void setRepresentantes(RepresentanteOrganizacion representante) {
-        this.representantes = new ArrayList<RepresentanteOrganizacion>(); 
-        this.representantes.add(representante);
+    public void setRepresentantes(LinkedList<RepresentanteOrganizacion> representantes) {
+        this.representantes = representantes;
     }
 
     @Override

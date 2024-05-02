@@ -1,29 +1,56 @@
 package dominio;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
-public class Cliente {
-
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Cliente implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
+    
+    @Basic
     protected String nombre;
     protected String identificacion;
     protected String direccion;
     protected float saldo;
-    protected List<Cuenta> cuentas;
+    
+    @OneToMany (mappedBy = "clienteDueño")
+    protected LinkedList<Cuenta> cuentas;
 
     public Cliente() {
 
     }
 
-    public Cliente(String nombre, String identificacion, String direccion, float saldo, Cuenta cuenta) {
+    public Cliente(int id, String nombre, String identificacion, String direccion, float saldo, LinkedList<Cuenta> cuentas) {
+        this.id = id;
         this.nombre = nombre;
         this.identificacion = identificacion;
         this.direccion = direccion;
         this.saldo = saldo;
-        this.cuentas =new ArrayList<Cuenta>();
-        this.cuentas.add(cuenta);
+        this.cuentas = cuentas;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNombre() {
         return nombre;
     }
@@ -56,15 +83,13 @@ public class Cliente {
         this.identificacion = identificacion;
     }
 
-    public List<Cuenta> getCuentas() {
-        return this.cuentas;
+    public LinkedList<Cuenta> getCuentas() {
+        return cuentas;
     }
 
-    public void setCuentas(Cuenta cuenta) {
-        this.cuentas = new ArrayList<Cuenta>();
-        this.cuentas.add(cuenta);
+    public void setCuentas(LinkedList<Cuenta> cuentas) {
+        this.cuentas = cuentas;
     }
-
     
     @Override
     public String toString() {

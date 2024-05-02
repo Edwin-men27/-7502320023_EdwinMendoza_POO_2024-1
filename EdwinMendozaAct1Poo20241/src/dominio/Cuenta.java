@@ -1,31 +1,59 @@
 package dominio;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-public class Cuenta {
+@Entity
+public class Cuenta implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
+    
+    @Basic
     private String codigoCuentaCliente;
     private float saldoActual;
     private float saldoMedio;
     private float deposito;
-    private Date fechaApertura;
-    private Cliente cliente;
+    
+    @ManyToOne
+    private Sucursal cuentaCreada;
+    
+    @ManyToOne
+    private Cliente clienteDueño;
+    
+    @OneToOne
     private TipoDeCuenta tipoDeCuenta;
-
+    
+    @Temporal(TemporalType.DATE)
+    private Date fechaApertura;
+    
     public Cuenta() {
 
     }
 
-    public Cuenta(float saldoActual, float saldoMedio, float deposito, Date fechaApertura, String codigoCuentaCliente, TipoDeCuenta tipoDeCuenta, Cliente cliente) {
+    public Cuenta(int id, String codigoCuentaCliente, float saldoActual, float saldoMedio, float deposito, Sucursal cuentaCreada, Cliente clienteDueño, TipoDeCuenta tipoDeCuenta, Date fechaApertura) {
+        this.id = id;
         this.codigoCuentaCliente = codigoCuentaCliente;
-        this.fechaApertura = fechaApertura;
         this.saldoActual = saldoActual;
         this.saldoMedio = saldoMedio;
         this.deposito = deposito;
+        this.cuentaCreada = cuentaCreada;
+        this.clienteDueño = clienteDueño;
         this.tipoDeCuenta = tipoDeCuenta;
-        this.cliente = cliente;
+        this.fechaApertura = fechaApertura;
     }
+
+    
 
     public void setCodigoCuentaCliente(String codigoCuentaCliente) {
         this.codigoCuentaCliente = codigoCuentaCliente;
@@ -72,11 +100,11 @@ public class Cuenta {
     }
 
     public Cliente getCliente() {
-        return cliente;
+        return clienteDueño;
     }
 
     public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+        this.clienteDueño = cliente;
     }
 
     public TipoDeCuenta getTipoDeCuenta() {
@@ -87,6 +115,23 @@ public class Cuenta {
         this.tipoDeCuenta = tipoDeCuenta;
     }
 
+    public Sucursal getCuentaCreada() {
+        return cuentaCreada;
+    }
+
+    public void setCuentaCreada(Sucursal cuentaCreada) {
+        this.cuentaCreada = cuentaCreada;
+    }
+
+    public Cliente getClienteDueño() {
+        return clienteDueño;
+    }
+
+    public void setClienteDueño(Cliente clienteDueño) {
+        this.clienteDueño = clienteDueño;
+    }
+
+    
     @Override
     public String toString() {
         return "Datos de Cuenta" + "\nCodigo Cuenta Cliente=" + codigoCuentaCliente

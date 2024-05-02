@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import Model.InterfasCrud;
+import co.edu.udec.poo.edwinmendoza.persistencia.BancoJpaController;
 
 /**
  *
@@ -14,6 +15,8 @@ import Model.InterfasCrud;
 public class BancoCrud implements InterfasCrud<Banco> {
 
     private HashMap<String, Banco> bancos = new HashMap<>();
+    
+    private BancoJpaController bancoController = new BancoJpaController();
 
     public BancoCrud() {
         this.bancos = new HashMap<>();

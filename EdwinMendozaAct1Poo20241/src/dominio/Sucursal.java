@@ -1,35 +1,57 @@
 package dominio;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-public class Sucursal {
+@Entity
+public class Sucursal implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
+    
+    @Basic
     private String nombre;
     private String codigo;
     private String direccion;
     private String codigoPostal;
     private String informe;
-    private Banco banco;
-    private List<Empleado> empleados;
-    private List<Cuenta> cuentas;
+    
+    @ManyToOne
+    private Banco bancoAfiliado;
+    
+    @OneToMany (mappedBy = "afiliado")
+    private LinkedList<Empleado> empleados;
+    
+    @OneToMany (mappedBy = "cuentaCreada")
+    private LinkedList<Cuenta> cuentas;
 
     public Sucursal() {
 
     }
 
-    public Sucursal(String nombre, String codigo, String direccion, String codigoPostal, String informe, Banco banco, Empleado empleado, Cuenta cuenta) {
-        this.codigo = codigo;
-        this.codigoPostal = codigoPostal;
-        this.direccion = direccion;
-        this.informe = informe;
+    public Sucursal(int id, String nombre, String codigo, String direccion, String codigoPostal, String informe, Banco bancoAfiliado, LinkedList<Empleado> empleados, LinkedList<Cuenta> cuentas) {
+        this.id = id;
         this.nombre = nombre;
-        this.banco = banco;
-        this.empleados = new ArrayList<>();
-        this.cuentas = new ArrayList<>();
+        this.codigo = codigo;
+        this.direccion = direccion;
+        this.codigoPostal = codigoPostal;
+        this.informe = informe;
+        this.bancoAfiliado = bancoAfiliado;
+        this.empleados = empleados;
+        this.cuentas = cuentas;
     }
 
+   
     public int getId() {
         return id;
     }
@@ -75,21 +97,29 @@ public class Sucursal {
     }
 
     public Banco getBanco() {
-        return banco;
+        return bancoAfiliado;
     }
 
     public void setBanco(Banco banco) {
-        this.banco = banco;
+        this.bancoAfiliado = banco;
     }
 
-    public List<Empleado> getEmpleados() {
-        return this.empleados;
+    public LinkedList<Empleado> getEmpleados() {
+        return empleados;
     }
 
-    public List<Cuenta> getCuentas() {
-        return this.cuentas;
+    public void setEmpleados(LinkedList<Empleado> empleados) {
+        this.empleados = empleados;
     }
 
+    public LinkedList<Cuenta> getCuentas() {
+        return cuentas;
+    }
+
+    public void setCuentas(LinkedList<Cuenta> cuentas) {
+        this.cuentas = cuentas;
+    }
+    
     @Override
     public String toString() {
         return "Datos Sucursal" + "\nNombre: " + nombre

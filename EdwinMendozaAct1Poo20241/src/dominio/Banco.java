@@ -1,25 +1,43 @@
 package dominio;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-public class Banco {
+@Entity
+public class Banco implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id;
+    
+    @Basic
     private String nombre;
     private String codigoIdentificador;
-    private List<Sucursal> sucursales;
+    
+    @OneToMany (mappedBy = "bancoAfiliado")
+    private LinkedList<Sucursal> sucursales;
 
     public Banco() {
 
     }
 
-    public Banco(String nombre, String CodigoIdentificador, Sucursal sucursal) {
+    public Banco(int id, String nombre, String codigoIdentificador, LinkedList<Sucursal> sucursales) {
+        this.id = id;
         this.nombre = nombre;
-        this.codigoIdentificador = CodigoIdentificador;
-        this.sucursales = new ArrayList<Sucursal>();
-
+        this.codigoIdentificador = codigoIdentificador;
+        this.sucursales = sucursales;
     }
+
+    
 
     public int getId() {
         return id;
@@ -41,14 +59,15 @@ public class Banco {
         codigoIdentificador = identificador;
     }
 
-    public List<Sucursal> getSucursal() {
-        return this.sucursales;
+    public LinkedList<Sucursal> getSucursales() {
+        return sucursales;
     }
 
-    public void setSucursales(Sucursal sucursal) { //cambiar el nombre a addsucursal
-        this.sucursales = new ArrayList<Sucursal>();
-        this.sucursales.add(sucursal);
+    public void setSucursales(LinkedList<Sucursal> sucursales) {
+        this.sucursales = sucursales;
     }
+
+   
 
     @Override
     public String toString() {

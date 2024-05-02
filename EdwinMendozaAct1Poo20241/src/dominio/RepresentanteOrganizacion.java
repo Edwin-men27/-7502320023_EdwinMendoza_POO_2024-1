@@ -1,18 +1,34 @@
 package dominio;
 
-public class RepresentanteOrganizacion {
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+
+@Entity
+public class RepresentanteOrganizacion implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id;
+    
+    @Basic
     private String nombre;
-    private Organizacion organizacion;
+    
+    @ManyToOne
+    private Organizacion organizacionAfiliada;
 
     public RepresentanteOrganizacion() {
 
     }
 
-    public RepresentanteOrganizacion(String nombre, Organizacion organizacion) {
+    public RepresentanteOrganizacion(String nombre, Organizacion organizacionAfiliada) {
         this.nombre = nombre;
-        this.organizacion = organizacion;
+        this.organizacionAfiliada = organizacionAfiliada;
     }
 
     public int getId() {
@@ -28,17 +44,17 @@ public class RepresentanteOrganizacion {
     }
 
     public Organizacion getOrganizacion() {
-        return organizacion;
+        return organizacionAfiliada;
     }
 
-    public void setOrganizacion(Organizacion organizacion) {
-        this.organizacion = organizacion;
+    public void setOrganizacion(Organizacion organizacionAfiliada) {
+        this.organizacionAfiliada = organizacionAfiliada;
     }
 
     @Override
     public String toString() {
         return "Representante Organizacion" + "\nNombre=" + nombre
-                + "\nOrganizacion=" + organizacion;
+                + "\nOrganizacion=" + organizacionAfiliada;
     }
 
 }

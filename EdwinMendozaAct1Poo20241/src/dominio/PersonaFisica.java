@@ -1,25 +1,32 @@
 package dominio;
 
 import java.util.Date;
+import java.util.LinkedList;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@PrimaryKeyJoinColumn(referencedColumnName="Cliente_PersonaFisica")
 public class PersonaFisica extends Cliente {
 
-    private int id;
+    @Basic
     private String sexo;
+    
+    @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
     public PersonaFisica() {
         super();
     }
 
-    public PersonaFisica(String nombre, String identificacion, String direccion, float saldo, Date fechaNacimiento, String sexo, Cuenta cuenta) {
-        super(nombre, identificacion, direccion, saldo, cuenta);
-        this.fechaNacimiento = fechaNacimiento;
+    public PersonaFisica(String sexo, Date fechaNacimiento, int id, String nombre, String identificacion, String direccion, float saldo, LinkedList<Cuenta> cuentas) {
+        super(id, nombre, identificacion, direccion, saldo, cuentas);
         this.sexo = sexo;
-    }
-
-    public int getId() {
-        return id;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public void setSexo(String sexo) {

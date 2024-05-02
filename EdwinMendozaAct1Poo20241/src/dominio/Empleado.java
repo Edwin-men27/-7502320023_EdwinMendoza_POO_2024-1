@@ -1,12 +1,27 @@
 package dominio;
 
-public class Empleado {
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
+@Entity
+public class Empleado implements Serializable {
+
+    @Id
     private int id;
+    
+    @Basic
     private String identificacion;
     private String ciudad;
     private String cargo;
+    
+    @OneToOne
     private PersonaFisica empleado;
+    
+    @ManyToOne
     private Sucursal afiliado;
 
     public Empleado() {
