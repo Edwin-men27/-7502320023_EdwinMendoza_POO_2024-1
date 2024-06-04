@@ -27,9 +27,7 @@ public class VentanaCrudBanco extends javax.swing.JDialog {
     public VentanaCrudBanco(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        //Boton inabilitado
-//        BotonEditar.setEnabled(false);
-//        BotonEliminar.setEnabled(false);
+
     }
 
     /**
