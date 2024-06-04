@@ -22,12 +22,12 @@ import javax.persistence.criteria.Root;
  */
 public class RepresentanteOrganizacionJpaController implements Serializable {
 
-    public RepresentanteOrganizacionJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
     public RepresentanteOrganizacionJpaController() {
         emf = Persistence.createEntityManagerFactory("EdwinMendozaAct1Poo20241PU");
+    }
+
+    public RepresentanteOrganizacionJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 

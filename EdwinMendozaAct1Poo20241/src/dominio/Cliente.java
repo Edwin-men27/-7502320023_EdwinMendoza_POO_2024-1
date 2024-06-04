@@ -1,10 +1,9 @@
 package dominio;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,9 +22,12 @@ public class Cliente implements Serializable {
     
     @Basic
     protected String nombre;
-    protected String identificacion;
+    protected String clave;
     protected String direccion;
-    protected float saldo;
+    protected double saldo;
+    
+    @Column(unique = true)
+    protected String identificacion;
     
     @OneToMany (mappedBy = "clienteDueño")
     protected LinkedList<Cuenta> cuentas;
@@ -34,13 +36,26 @@ public class Cliente implements Serializable {
 
     }
 
-    public Cliente(int id, String nombre, String identificacion, String direccion, float saldo, LinkedList<Cuenta> cuentas) {
-        this.id = id;
+    public Cliente(String nombre,
+                    String clave,
+                    String identificacion,
+                    String direccion,
+                    double saldo) {
         this.nombre = nombre;
+        this.clave = clave;
         this.identificacion = identificacion;
         this.direccion = direccion;
         this.saldo = saldo;
-        this.cuentas = cuentas;
+        this.cuentas = new LinkedList<>();// arreglar en la base de dat0s
+        
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
     public int getId() {
@@ -67,11 +82,11 @@ public class Cliente implements Serializable {
         this.direccion = direccion;
     }
 
-    public float getSaldo() {
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(float saldo) {
+    public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 
@@ -82,6 +97,10 @@ public class Cliente implements Serializable {
     public void setIdentificacion(String identificacion) {
         this.identificacion = identificacion;
     }
+    
+    public void agregarCuenta(Cuenta objeto){
+        this.cuentas.add(objeto);
+    }
 
     public LinkedList<Cuenta> getCuentas() {
         return cuentas;
@@ -91,12 +110,19 @@ public class Cliente implements Serializable {
         this.cuentas = cuentas;
     }
     
+    public void agregarCuentas(Cuenta objeto){
+        this.cuentas.add(objeto);
+    }
+    
+    public void removeCuentas(Cuenta objeto){
+        this.cuentas.remove(objeto);
+    }
+
     @Override
     public String toString() {
-        return "Datos DEL Cliente" + "\n Nombre=" + nombre
-                + "\n Identificacion=" + identificacion
-                + "\n direccion=" + direccion
-                + "\n saldo=" + saldo;
+        return "Cliente{" + "nombre=" + nombre + ", clave=" + clave + ", direccion=" + direccion + ", saldo=" + saldo + ", identificacion=" + identificacion + '}';
     }
+
+    
 
 }

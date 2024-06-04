@@ -26,11 +26,11 @@ public class TipoDeCuentaCrud implements InterfasCrud<TipoDeCuenta>{
     @Override
     public void agregar(TipoDeCuenta objeto) throws Exception {
         try {
-            if (ListaTipoDeCuentas.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("La cuenta "+objeto.getIdentificacion()+" ya se encuentra agregado en el sistema");
+            if (ListaTipoDeCuentas.containsKey(objeto.getBeneficios())) {
+                throw new Exception("La cuenta "+objeto.getBeneficios()+" ya se encuentra agregado en el sistema");
             }
 
-            ListaTipoDeCuentas.put(objeto.getIdentificacion(), objeto);
+            ListaTipoDeCuentas.put(objeto.getBeneficios(), objeto);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }}
@@ -51,10 +51,10 @@ public class TipoDeCuentaCrud implements InterfasCrud<TipoDeCuenta>{
     @Override
     public void editar(TipoDeCuenta objeto) throws Exception {
        try {
-            if (!ListaTipoDeCuentas.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("La cuenta "+objeto.getIdentificacion()+" no se encuentra registrado");
+            if (!ListaTipoDeCuentas.containsKey(objeto.getBeneficios())) {
+                throw new Exception("La cuenta "+objeto.getBeneficios()+" no se encuentra registrado");
             }
-            ListaTipoDeCuentas.put(objeto.getIdentificacion(), objeto);
+            ListaTipoDeCuentas.put(objeto.getBeneficios(), objeto);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

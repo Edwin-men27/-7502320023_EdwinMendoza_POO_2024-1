@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import dominio.TipoDeCuenta;
 import dominio.Sucursal;
 import dominio.Cliente;
 import dominio.Cuenta;
@@ -24,14 +25,13 @@ import javax.persistence.Persistence;
  */
 public class CuentaJpaController implements Serializable {
 
-    public CuentaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
     public CuentaJpaController() {
         emf = Persistence.createEntityManagerFactory("EdwinMendozaAct1Poo20241PU");
     }
-    
+
+    public CuentaJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -43,6 +43,11 @@ public class CuentaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            TipoDeCuenta tipoDeCuenta = cuenta.getTipoDeCuenta();
+            if (tipoDeCuenta != null) {
+                tipoDeCuenta = em.getReference(tipoDeCuenta.getClass(), tipoDeCuenta.getId());
+                cuenta.setTipoDeCuenta(tipoDeCuenta);
+            }
             Sucursal cuentaCreada = cuenta.getCuentaCreada();
             if (cuentaCreada != null) {
                 cuentaCreada = em.getReference(cuentaCreada.getClass(), cuentaCreada.getId());
@@ -54,6 +59,10 @@ public class CuentaJpaController implements Serializable {
                 cuenta.setClienteDueño(clienteDueño);
             }
             em.persist(cuenta);
+            if (tipoDeCuenta != null) {
+                tipoDeCuenta.getCuentas().add(cuenta);
+                tipoDeCuenta = em.merge(tipoDeCuenta);
+            }
             if (cuentaCreada != null) {
                 cuentaCreada.getCuentas().add(cuenta);
                 cuentaCreada = em.merge(cuentaCreada);
@@ -76,10 +85,16 @@ public class CuentaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Cuenta persistentCuenta = em.find(Cuenta.class, cuenta.getId());
+            TipoDeCuenta tipoDeCuentaOld = persistentCuenta.getTipoDeCuenta();
+            TipoDeCuenta tipoDeCuentaNew = cuenta.getTipoDeCuenta();
             Sucursal cuentaCreadaOld = persistentCuenta.getCuentaCreada();
             Sucursal cuentaCreadaNew = cuenta.getCuentaCreada();
             Cliente clienteDueñoOld = persistentCuenta.getClienteDueño();
             Cliente clienteDueñoNew = cuenta.getClienteDueño();
+            if (tipoDeCuentaNew != null) {
+                tipoDeCuentaNew = em.getReference(tipoDeCuentaNew.getClass(), tipoDeCuentaNew.getId());
+                cuenta.setTipoDeCuenta(tipoDeCuentaNew);
+            }
             if (cuentaCreadaNew != null) {
                 cuentaCreadaNew = em.getReference(cuentaCreadaNew.getClass(), cuentaCreadaNew.getId());
                 cuenta.setCuentaCreada(cuentaCreadaNew);
@@ -89,6 +104,14 @@ public class CuentaJpaController implements Serializable {
                 cuenta.setClienteDueño(clienteDueñoNew);
             }
             cuenta = em.merge(cuenta);
+            if (tipoDeCuentaOld != null && !tipoDeCuentaOld.equals(tipoDeCuentaNew)) {
+                tipoDeCuentaOld.getCuentas().remove(cuenta);
+                tipoDeCuentaOld = em.merge(tipoDeCuentaOld);
+            }
+            if (tipoDeCuentaNew != null && !tipoDeCuentaNew.equals(tipoDeCuentaOld)) {
+                tipoDeCuentaNew.getCuentas().add(cuenta);
+                tipoDeCuentaNew = em.merge(tipoDeCuentaNew);
+            }
             if (cuentaCreadaOld != null && !cuentaCreadaOld.equals(cuentaCreadaNew)) {
                 cuentaCreadaOld.getCuentas().remove(cuenta);
                 cuentaCreadaOld = em.merge(cuentaCreadaOld);
@@ -133,6 +156,11 @@ public class CuentaJpaController implements Serializable {
                 cuenta.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The cuenta with id " + id + " no longer exists.", enfe);
+            }
+            TipoDeCuenta tipoDeCuenta = cuenta.getTipoDeCuenta();
+            if (tipoDeCuenta != null) {
+                tipoDeCuenta.getCuentas().remove(cuenta);
+                tipoDeCuenta = em.merge(tipoDeCuenta);
             }
             Sucursal cuentaCreada = cuenta.getCuentaCreada();
             if (cuentaCreada != null) {

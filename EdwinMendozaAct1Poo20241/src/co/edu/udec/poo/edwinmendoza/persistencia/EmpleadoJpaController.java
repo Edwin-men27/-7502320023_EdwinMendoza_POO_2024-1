@@ -5,14 +5,16 @@
 package co.edu.udec.poo.edwinmendoza.persistencia;
 
 import co.edu.udec.poo.edwinmendoza.persistencia.exceptions.NonexistentEntityException;
-import co.edu.udec.poo.edwinmendoza.persistencia.exceptions.PreexistingEntityException;
-import dominio.Empleado;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import dominio.Sucursal;
+import dominio.Cuenta;
+import dominio.Empleado;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,21 +26,23 @@ import javax.persistence.Persistence;
  */
 public class EmpleadoJpaController implements Serializable {
 
-    public EmpleadoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
     public EmpleadoJpaController() {
         emf = Persistence.createEntityManagerFactory("EdwinMendozaAct1Poo20241PU");
     }
-    
+
+    public EmpleadoJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Empleado empleado) throws PreexistingEntityException, Exception {
+    public void create(Empleado empleado) {
+        if (empleado.getCuentas() == null) {
+            empleado.setCuentas(new LinkedList<Cuenta>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -48,17 +52,27 @@ public class EmpleadoJpaController implements Serializable {
                 afiliado = em.getReference(afiliado.getClass(), afiliado.getId());
                 empleado.setAfiliado(afiliado);
             }
+            LinkedList<Cuenta> attachedCuentas = new LinkedList<Cuenta>();
+            for (Cuenta cuentasCuentaToAttach : empleado.getCuentas()) {
+                cuentasCuentaToAttach = em.getReference(cuentasCuentaToAttach.getClass(), cuentasCuentaToAttach.getId());
+                attachedCuentas.add(cuentasCuentaToAttach);
+            }
+            empleado.setCuentas(attachedCuentas);
             em.persist(empleado);
             if (afiliado != null) {
                 afiliado.getEmpleados().add(empleado);
                 afiliado = em.merge(afiliado);
             }
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findEmpleado(empleado.getId()) != null) {
-                throw new PreexistingEntityException("Empleado " + empleado + " already exists.", ex);
+            for (Cuenta cuentasCuenta : empleado.getCuentas()) {
+                dominio.Cliente oldClienteDueñoOfCuentasCuenta = cuentasCuenta.getClienteDueño();
+                cuentasCuenta.setClienteDueño(empleado);
+                cuentasCuenta = em.merge(cuentasCuenta);
+                if (oldClienteDueñoOfCuentasCuenta != null) {
+                    oldClienteDueñoOfCuentasCuenta.getCuentas().remove(cuentasCuenta);
+                    oldClienteDueñoOfCuentasCuenta = em.merge(oldClienteDueñoOfCuentasCuenta);
+                }
             }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();
@@ -74,10 +88,19 @@ public class EmpleadoJpaController implements Serializable {
             Empleado persistentEmpleado = em.find(Empleado.class, empleado.getId());
             Sucursal afiliadoOld = persistentEmpleado.getAfiliado();
             Sucursal afiliadoNew = empleado.getAfiliado();
+            LinkedList<Cuenta> cuentasOld = persistentEmpleado.getCuentas();
+            LinkedList<Cuenta> cuentasNew = empleado.getCuentas();
             if (afiliadoNew != null) {
                 afiliadoNew = em.getReference(afiliadoNew.getClass(), afiliadoNew.getId());
                 empleado.setAfiliado(afiliadoNew);
             }
+            LinkedList<Cuenta> attachedCuentasNew = new LinkedList<Cuenta>();
+            for (Cuenta cuentasNewCuentaToAttach : cuentasNew) {
+                cuentasNewCuentaToAttach = em.getReference(cuentasNewCuentaToAttach.getClass(), cuentasNewCuentaToAttach.getId());
+                attachedCuentasNew.add(cuentasNewCuentaToAttach);
+            }
+            cuentasNew = attachedCuentasNew;
+            empleado.setCuentas(cuentasNew);
             empleado = em.merge(empleado);
             if (afiliadoOld != null && !afiliadoOld.equals(afiliadoNew)) {
                 afiliadoOld.getEmpleados().remove(empleado);
@@ -86,6 +109,23 @@ public class EmpleadoJpaController implements Serializable {
             if (afiliadoNew != null && !afiliadoNew.equals(afiliadoOld)) {
                 afiliadoNew.getEmpleados().add(empleado);
                 afiliadoNew = em.merge(afiliadoNew);
+            }
+            for (Cuenta cuentasOldCuenta : cuentasOld) {
+                if (!cuentasNew.contains(cuentasOldCuenta)) {
+                    cuentasOldCuenta.setClienteDueño(null);
+                    cuentasOldCuenta = em.merge(cuentasOldCuenta);
+                }
+            }
+            for (Cuenta cuentasNewCuenta : cuentasNew) {
+                if (!cuentasOld.contains(cuentasNewCuenta)) {
+                    var oldClienteDueñoOfCuentasNewCuenta = cuentasNewCuenta.getClienteDueño();
+                    cuentasNewCuenta.setClienteDueño(empleado);
+                    cuentasNewCuenta = em.merge(cuentasNewCuenta);
+                    if (oldClienteDueñoOfCuentasNewCuenta != null && !oldClienteDueñoOfCuentasNewCuenta.equals(empleado)) {
+                        oldClienteDueñoOfCuentasNewCuenta.getCuentas().remove(cuentasNewCuenta);
+                        oldClienteDueñoOfCuentasNewCuenta = em.merge(oldClienteDueñoOfCuentasNewCuenta);
+                    }
+                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -120,6 +160,11 @@ public class EmpleadoJpaController implements Serializable {
             if (afiliado != null) {
                 afiliado.getEmpleados().remove(empleado);
                 afiliado = em.merge(afiliado);
+            }
+            LinkedList<Cuenta> cuentas = empleado.getCuentas();
+            for (Cuenta cuentasCuenta : cuentas) {
+                cuentasCuenta.setClienteDueño(null);
+                cuentasCuenta = em.merge(cuentasCuenta);
             }
             em.remove(empleado);
             em.getTransaction().commit();

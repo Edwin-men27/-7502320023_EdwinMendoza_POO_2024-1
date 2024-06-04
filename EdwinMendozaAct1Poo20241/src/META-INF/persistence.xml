@@ -9,8 +9,8 @@
     <class>dominio.Organizacion</class>
     <class>dominio.PersonaFisica</class>
     <class>dominio.RepresentanteOrganizacion</class>
-    <class>dominio.TipoDeCuenta</class>
     <class>dominio.Sucursal</class>
+    <class>dominio.TipoDeCuenta</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/actividad4bd?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="Actividad4Bd"/>

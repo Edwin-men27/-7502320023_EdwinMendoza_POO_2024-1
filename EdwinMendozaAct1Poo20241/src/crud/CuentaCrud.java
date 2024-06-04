@@ -108,7 +108,7 @@ public class CuentaCrud implements InterfasCrud<Cuenta> {
             tamaño = cuentas.size();
 
             if (tamaño == 0) {
-                throw new Exception("No existen cuentas en el sistema, El numero de elementos de la lista es: ");
+                throw new Exception("No existen cuentas en el sistema");
             }
 
             return tamaño;

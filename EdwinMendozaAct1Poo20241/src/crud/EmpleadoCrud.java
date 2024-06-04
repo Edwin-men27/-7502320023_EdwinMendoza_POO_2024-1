@@ -27,11 +27,11 @@ import java.util.Map;
     @Override
     public void agregar(Empleado objeto) throws Exception {
         try {
-            if (listaEmpleado.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("El empleado "+objeto.getIdentificacion()+" ya se encuentra agregado en el sistema");
+            if (listaEmpleado.containsKey(objeto.getId())) {
+                throw new Exception("El empleado "+objeto.getId()+" ya se encuentra agregado en el sistema");
             }
 
-            listaEmpleado.put(objeto.getIdentificacion(), objeto);
+            listaEmpleado.put(objeto.getCargo(), objeto);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }}
@@ -52,10 +52,10 @@ import java.util.Map;
     @Override
     public void editar(Empleado objeto) throws Exception {
         try {
-            if (!listaEmpleado.containsKey(objeto.getIdentificacion())) {
-                throw new Exception("El empleado "+objeto.getIdentificacion()+" no se encuentra registrado");
+            if (!listaEmpleado.containsKey(objeto.getId())) {
+                throw new Exception("El empleado "+objeto.getId()+" no se encuentra registrado");
             }
-            listaEmpleado.put(objeto.getIdentificacion(), objeto);
+            listaEmpleado.put(objeto.getCargo(), objeto);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

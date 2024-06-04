@@ -1,46 +1,37 @@
 package dominio;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Banco implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
-    private int id;
+    @Column(unique = true)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private String codigoIdentificador;
     
     @Basic
     private String nombre;
-    private String codigoIdentificador;
     
     @OneToMany (mappedBy = "bancoAfiliado")
-    private LinkedList<Sucursal> sucursales;
+    private LinkedList<Sucursal> sucursales= new LinkedList<>();
 
     public Banco() {
 
     }
 
-    public Banco(int id, String nombre, String codigoIdentificador, LinkedList<Sucursal> sucursales) {
-        this.id = id;
+    public Banco(String nombre, String codigoIdentificador) {
         this.nombre = nombre;
         this.codigoIdentificador = codigoIdentificador;
-        this.sucursales = sucursales;
-    }
-
-    
-
-    public int getId() {
-        return id;
+        this.sucursales = new LinkedList<>();
     }
 
     public String getNombre() {
@@ -59,6 +50,14 @@ public class Banco implements Serializable {
         codigoIdentificador = identificador;
     }
 
+    public void agregarSucursal(Sucursal objeto){
+        this.sucursales.add(objeto);
+    }
+    
+    public void removerSucursal(Sucursal objeto){
+        this.sucursales.remove(objeto);
+    }
+    
     public LinkedList<Sucursal> getSucursales() {
         return sucursales;
     }
@@ -67,13 +66,8 @@ public class Banco implements Serializable {
         this.sucursales = sucursales;
     }
 
-   
-
     @Override
     public String toString() {
-        return "---------------------------------------------------------------"+
-                "\n Datos del Banco" + "\n Nombre: " + nombre
-                + "\n Codigo De Identificacion: " + codigoIdentificador
-                + "\n Lista de Sucursales: " + sucursales;
+        return "Banco{" + "nombre=" + nombre + ", codigoIdentificador=" + codigoIdentificador + ", sucursales=" + sucursales + '}';
     }
 }

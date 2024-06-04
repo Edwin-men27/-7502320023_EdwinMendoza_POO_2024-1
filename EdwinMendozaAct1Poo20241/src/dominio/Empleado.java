@@ -1,25 +1,28 @@
 package dominio;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-public class Empleado implements Serializable {
-
-    @Id
-    private int id;
+public class Empleado extends Cliente{
     
     @Basic
-    private String identificacion;
     private String ciudad;
     private String cargo;
     
-    @OneToOne
-    private PersonaFisica empleado;
+    private String sexo;
+    
+    @Temporal(TemporalType.DATE)
+    private Date fechaNacimiento;
     
     @ManyToOne
     private Sucursal afiliado;
@@ -28,14 +31,29 @@ public class Empleado implements Serializable {
 
     }
 
-    public Empleado(String identificacion,String ciudad, String cargo, PersonaFisica empleado, Sucursal afiliado) {
-        this.identificacion = identificacion;
+    public Empleado( 
+            String ciudad, 
+            String cargo, 
+            Sucursal afiliado,
+            String sexo, 
+            Date fechaNacimiento,
+            String nombre, 
+            String clave, 
+            String identificacion, 
+            String direccion, 
+            double saldo) {
+        super(nombre, clave, identificacion, direccion, saldo);
         this.ciudad = ciudad;
         this.cargo = cargo;
-        this.empleado = empleado;
         this.afiliado = afiliado;
+        this.sexo = sexo;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public int getId() {
         return id;
     }
@@ -56,14 +74,6 @@ public class Empleado implements Serializable {
         this.cargo = cargo;
     }
 
-    public PersonaFisica getEmpleado() {
-        return empleado;
-    }
-
-    public void setEmpleado(PersonaFisica empleado) {
-        this.empleado = empleado;
-    }
-
     public Sucursal getAfiliado() {
         return afiliado;
     }
@@ -72,21 +82,27 @@ public class Empleado implements Serializable {
         this.afiliado = afiliado;
     }
 
-    public String getIdentificacion() {
-        return identificacion;
+    public String getSexo() {
+        return sexo;
     }
 
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
     
     
+
     @Override
     public String toString() {
-        return "Datos De Empleado" + "\n Ciudad=" + ciudad
-                + "\n Cargo: " + cargo
-                + "\n Empleado: " + empleado
-                + "\n Sucursal Afiliado: " + afiliado;
+        return "Empleado{" + ", ciudad=" + ciudad + ", cargo=" + cargo + ", afiliado=" + afiliado.getNombre() + '}';
     }
 
 }

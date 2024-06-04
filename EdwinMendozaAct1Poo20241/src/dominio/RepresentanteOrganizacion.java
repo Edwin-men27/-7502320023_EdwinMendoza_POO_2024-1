@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class RepresentanteOrganizacion implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     
     @Basic
@@ -53,8 +53,7 @@ public class RepresentanteOrganizacion implements Serializable {
 
     @Override
     public String toString() {
-        return "Representante Organizacion" + "\nNombre=" + nombre
-                + "\nOrganizacion=" + organizacionAfiliada;
+        return "RepresentanteOrganizacion{" + "nombre=" + nombre + ", organizacionAfiliada=" + organizacionAfiliada + '}';
     }
 
 }

@@ -5,7 +5,6 @@
 package co.edu.udec.poo.edwinmendoza.persistencia;
 
 import co.edu.udec.poo.edwinmendoza.persistencia.exceptions.NonexistentEntityException;
-import dominio.Cliente;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -26,14 +25,13 @@ import javax.persistence.Persistence;
  */
 public class PersonaFisicaJpaController implements Serializable {
 
-    public PersonaFisicaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
     public PersonaFisicaJpaController() {
         emf = Persistence.createEntityManagerFactory("EdwinMendozaAct1Poo20241PU");
     }
     
+    public PersonaFisicaJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -96,7 +94,7 @@ public class PersonaFisicaJpaController implements Serializable {
             }
             for (Cuenta cuentasNewCuenta : cuentasNew) {
                 if (!cuentasOld.contains(cuentasNewCuenta)) {
-                    Cliente oldClienteDueñoOfCuentasNewCuenta = cuentasNewCuenta.getClienteDueño();
+                    var oldClienteDueñoOfCuentasNewCuenta = cuentasNewCuenta.getClienteDueño();
                     cuentasNewCuenta.setClienteDueño(personaFisica);
                     cuentasNewCuenta = em.merge(cuentasNewCuenta);
                     if (oldClienteDueñoOfCuentasNewCuenta != null && !oldClienteDueñoOfCuentasNewCuenta.equals(personaFisica)) {

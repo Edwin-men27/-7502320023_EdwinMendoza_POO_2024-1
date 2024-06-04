@@ -4,13 +4,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@PrimaryKeyJoinColumn(referencedColumnName="Cliente_PersonaFisica")
 public class PersonaFisica extends Cliente {
 
     @Basic
@@ -23,11 +21,19 @@ public class PersonaFisica extends Cliente {
         super();
     }
 
-    public PersonaFisica(String sexo, Date fechaNacimiento, int id, String nombre, String identificacion, String direccion, float saldo, LinkedList<Cuenta> cuentas) {
-        super(id, nombre, identificacion, direccion, saldo, cuentas);
+    public PersonaFisica(String sexo,
+                         Date fechaNacimiento,
+                         String nombre,
+                         String clave,
+                         String identificacion,
+                         String direccion,
+                         double saldo) {
+        super(nombre, clave, identificacion, direccion, saldo);
         this.sexo = sexo;
         this.fechaNacimiento = fechaNacimiento;
     }
+
+    
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
@@ -47,9 +53,7 @@ public class PersonaFisica extends Cliente {
 
     @Override
     public String toString() {
-        return "Datos Persona Fisica "
-                + "\nSexo=" + sexo
-                + "\nFecha De Nacimiento: " + fechaNacimiento;
+        return "PersonaFisica{" + "sexo=" + sexo + ", fechaNacimiento=" + fechaNacimiento + '}';
     }
 
 }

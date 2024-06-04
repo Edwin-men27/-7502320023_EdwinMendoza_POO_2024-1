@@ -1,57 +1,66 @@
 package dominio;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Sucursal implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     @Basic
     private String nombre;
-    private String codigo;
     private String direccion;
     private String codigoPostal;
     private String informe;
     
+    @Column(unique = true)
+    private String codigo;
+    
     @ManyToOne
     private Banco bancoAfiliado;
-    
-    @OneToMany (mappedBy = "afiliado")
-    private LinkedList<Empleado> empleados;
-    
-    @OneToMany (mappedBy = "cuentaCreada")
-    private LinkedList<Cuenta> cuentas;
+
+    @OneToMany(mappedBy = "afiliado")
+    private LinkedList<Empleado> empleados = new LinkedList<>();;
+
+    @OneToMany(mappedBy = "cuentaCreada")
+    private LinkedList<Cuenta> cuentas = new LinkedList<>();;
 
     public Sucursal() {
 
     }
 
-    public Sucursal(int id, String nombre, String codigo, String direccion, String codigoPostal, String informe, Banco bancoAfiliado, LinkedList<Empleado> empleados, LinkedList<Cuenta> cuentas) {
-        this.id = id;
+    public Sucursal(String nombre,
+                    String codigo,
+                    String direccion,
+                    String codigoPostal,
+                    String informe,
+                    Banco bancoAfiliado) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.direccion = direccion;
         this.codigoPostal = codigoPostal;
         this.informe = informe;
         this.bancoAfiliado = bancoAfiliado;
-        this.empleados = empleados;
-        this.cuentas = cuentas;
+        this.empleados = new LinkedList<>();
+        this.cuentas = new LinkedList<>();
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
-   
     public int getId() {
         return id;
     }
@@ -96,12 +105,13 @@ public class Sucursal implements Serializable {
         this.informe = informe;
     }
 
-    public Banco getBanco() {
+    public Banco getBancoAfiliado() {
         return bancoAfiliado;
     }
 
-    public void setBanco(Banco banco) {
-        this.bancoAfiliado = banco;
+
+    public void setBancoAfiliado(Banco bancoAfiliado) {
+        this.bancoAfiliado = bancoAfiliado;
     }
 
     public LinkedList<Empleado> getEmpleados() {
@@ -110,6 +120,14 @@ public class Sucursal implements Serializable {
 
     public void setEmpleados(LinkedList<Empleado> empleados) {
         this.empleados = empleados;
+    }
+    
+    public void agregarEmpleados(Empleado objeto){
+        this.empleados.add(objeto);
+    }
+    
+    public void removeEmpleados(Empleado objeto){
+        this.empleados.remove(objeto);
     }
 
     public LinkedList<Cuenta> getCuentas() {
@@ -120,13 +138,17 @@ public class Sucursal implements Serializable {
         this.cuentas = cuentas;
     }
     
+    public void agregarCuentas(Cuenta objeto){
+        this.cuentas.add(objeto);
+    }
+    
+    public void removeCuentas(Cuenta objeto){
+        this.cuentas.remove(objeto);
+    }
+
     @Override
     public String toString() {
-        return "Datos Sucursal" + "\nNombre: " + nombre
-                + "\nCodigo: " + codigo
-                + "\nDireccion: " + direccion
-                + "\nCodigo Postal=" + codigoPostal
-                + "\nInforme=" + informe;
-    }
+        return "Sucursal{" + "nombre=" + nombre + ", direccion=" + direccion + ", codigoPostal=" + codigoPostal + ", informe=" + informe + ", codigo=" + codigo + ", bancoAfiliado=" + bancoAfiliado.getNombre() + '}';
+    }    
 
 }

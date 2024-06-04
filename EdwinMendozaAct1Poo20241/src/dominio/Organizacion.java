@@ -5,10 +5,8 @@ import java.util.LinkedList;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@PrimaryKeyJoinColumn(referencedColumnName="Cliente_Organizacion")
 public class Organizacion extends Cliente {
   
     @Basic
@@ -23,12 +21,20 @@ public class Organizacion extends Cliente {
 
     }
 
-    public Organizacion(String tipoOrganizacion, String cantidadEmpleados, String concepto, LinkedList<RepresentanteOrganizacion> representantes, int id, String nombre, String identificacion, String direccion, float saldo, LinkedList<Cuenta> cuentas) {
-        super(id, nombre, identificacion, direccion, saldo, cuentas);
+    public Organizacion(
+            String tipoOrganizacion,
+            String clave, 
+            String cantidadEmpleados, 
+            String concepto, 
+            String nombre, 
+            String identificacion, 
+            String direccion, 
+            double saldo) {
+        super( nombre,clave, identificacion, direccion, saldo);
         this.tipoOrganizacion = tipoOrganizacion;
         this.cantidadEmpleados = cantidadEmpleados;
         this.concepto = concepto;
-        this.representantes = representantes;
+        this.representantes = new LinkedList<>();// arreglar en la base de datos
     }
 
     public String getTipoOrganizacion() {
@@ -54,6 +60,10 @@ public class Organizacion extends Cliente {
     public String getConcepto() {
         return concepto;
     }
+    
+    public void agregarRepresentante(RepresentanteOrganizacion objeto){
+        this.representantes.add(objeto);
+    }
 
     public LinkedList<RepresentanteOrganizacion> getRepresentantes() {
         return representantes;
@@ -62,13 +72,20 @@ public class Organizacion extends Cliente {
     public void setRepresentantes(LinkedList<RepresentanteOrganizacion> representantes) {
         this.representantes = representantes;
     }
+    
+    public void agregarRepresentantes(RepresentanteOrganizacion objeto){
+        this.representantes.add(objeto);
+    }
+    
+    public void removeRepresentantes(RepresentanteOrganizacion objeto){
+        this.representantes.remove(objeto);
+    }
 
     @Override
     public String toString() {
-        return "Datos De Organizacion"
-                + "\n Tipo De Organizacion: " + tipoOrganizacion
-                + "\n Cantidad De Empleados: " + cantidadEmpleados
-                + "\n Concepto De Organizacion: " + concepto;
+        return "Organizacion{" + "tipoOrganizacion=" + tipoOrganizacion + ", cantidadEmpleados=" + cantidadEmpleados + ", concepto=" + concepto + '}';
     }
+
+    
 
 }

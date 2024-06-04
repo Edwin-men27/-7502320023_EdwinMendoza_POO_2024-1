@@ -7,14 +7,17 @@ package co.edu.udec.poo.edwinmendoza.persistencia;
 import co.edu.udec.poo.edwinmendoza.persistencia.exceptions.NonexistentEntityException;
 import dominio.Banco;
 import java.io.Serializable;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import dominio.Sucursal;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 /**
  *
@@ -22,14 +25,14 @@ import javax.persistence.criteria.Root;
  */
 public class BancoJpaController implements Serializable {
 
-    public BancoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
     public BancoJpaController() {
         emf = Persistence.createEntityManagerFactory("EdwinMendozaAct1Poo20241PU");
     }
+
     
+    public BancoJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -37,11 +40,29 @@ public class BancoJpaController implements Serializable {
     }
 
     public void create(Banco banco) {
+        if (banco.getSucursales() == null) {
+            banco.setSucursales(new LinkedList<Sucursal>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            LinkedList<Sucursal> attachedSucursales = new LinkedList<Sucursal>();
+            for (Sucursal sucursalesSucursalToAttach : banco.getSucursales()) {
+                sucursalesSucursalToAttach = em.getReference(sucursalesSucursalToAttach.getClass(), sucursalesSucursalToAttach.getId());
+                attachedSucursales.add(sucursalesSucursalToAttach);
+            }
+            banco.setSucursales(attachedSucursales);
             em.persist(banco);
+            for (Sucursal sucursalesSucursal : banco.getSucursales()) {
+                Banco oldBancoAfiliadoOfSucursalesSucursal = sucursalesSucursal.getBancoAfiliado();
+                sucursalesSucursal.setBancoAfiliado(banco);
+                sucursalesSucursal = em.merge(sucursalesSucursal);
+                if (oldBancoAfiliadoOfSucursalesSucursal != null) {
+                    oldBancoAfiliadoOfSucursalesSucursal.getSucursales().remove(sucursalesSucursal);
+                    oldBancoAfiliadoOfSucursalesSucursal = em.merge(oldBancoAfiliadoOfSucursalesSucursal);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -55,12 +76,39 @@ public class BancoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Banco persistentBanco = em.find(Banco.class, banco.getCodigoIdentificador());
+            LinkedList<Sucursal> sucursalesOld = persistentBanco.getSucursales();
+            LinkedList<Sucursal> sucursalesNew = banco.getSucursales();
+            LinkedList<Sucursal> attachedSucursalesNew = new LinkedList<Sucursal>();
+            for (Sucursal sucursalesNewSucursalToAttach : sucursalesNew) {
+                sucursalesNewSucursalToAttach = em.getReference(sucursalesNewSucursalToAttach.getClass(), sucursalesNewSucursalToAttach.getId());
+                attachedSucursalesNew.add(sucursalesNewSucursalToAttach);
+            }
+            sucursalesNew = attachedSucursalesNew;
+            banco.setSucursales(sucursalesNew);
             banco = em.merge(banco);
+            for (Sucursal sucursalesOldSucursal : sucursalesOld) {
+                if (!sucursalesNew.contains(sucursalesOldSucursal)) {
+                    sucursalesOldSucursal.setBancoAfiliado(null);
+                    sucursalesOldSucursal = em.merge(sucursalesOldSucursal);
+                }
+            }
+            for (Sucursal sucursalesNewSucursal : sucursalesNew) {
+                if (!sucursalesOld.contains(sucursalesNewSucursal)) {
+                    Banco oldBancoAfiliadoOfSucursalesNewSucursal = sucursalesNewSucursal.getBancoAfiliado();
+                    sucursalesNewSucursal.setBancoAfiliado(banco);
+                    sucursalesNewSucursal = em.merge(sucursalesNewSucursal);
+                    if (oldBancoAfiliadoOfSucursalesNewSucursal != null && !oldBancoAfiliadoOfSucursalesNewSucursal.equals(banco)) {
+                        oldBancoAfiliadoOfSucursalesNewSucursal.getSucursales().remove(sucursalesNewSucursal);
+                        oldBancoAfiliadoOfSucursalesNewSucursal = em.merge(oldBancoAfiliadoOfSucursalesNewSucursal);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                int id = banco.getId();
+                String id = banco.getCodigoIdentificador();
                 if (findBanco(id) == null) {
                     throw new NonexistentEntityException("The banco with id " + id + " no longer exists.");
                 }
@@ -73,7 +121,7 @@ public class BancoJpaController implements Serializable {
         }
     }
 
-    public void destroy(int id) throws NonexistentEntityException {
+    public void destroy(String id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -81,9 +129,14 @@ public class BancoJpaController implements Serializable {
             Banco banco;
             try {
                 banco = em.getReference(Banco.class, id);
-                banco.getId();
+                banco.getCodigoIdentificador();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The banco with id " + id + " no longer exists.", enfe);
+            }
+            LinkedList<Sucursal> sucursales = banco.getSucursales();
+            for (Sucursal sucursalesSucursal : sucursales) {
+                sucursalesSucursal.setBancoAfiliado(null);
+                sucursalesSucursal = em.merge(sucursalesSucursal);
             }
             em.remove(banco);
             em.getTransaction().commit();
@@ -118,7 +171,7 @@ public class BancoJpaController implements Serializable {
         }
     }
 
-    public Banco findBanco(int id) {
+    public Banco findBanco(String id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Banco.class, id);

@@ -3,11 +3,13 @@ package dominio;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,22 +18,23 @@ import javax.persistence.TemporalType;
 public class Cuenta implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @Basic
-    private String codigoCuentaCliente;
-    private float saldoActual;
-    private float saldoMedio;
-    private float deposito;
+    private double saldoActual;
+    private double saldoMedio;
+    private double deposito; // crear ventana
     
+    @Column(unique = true) 
+    private String codigoCuentaCliente;
     @ManyToOne
     private Sucursal cuentaCreada;
     
-    @ManyToOne
+    @ManyToOne// campo de lista
     private Cliente clienteDueño;
     
-    @OneToOne
+    @ManyToOne
     private TipoDeCuenta tipoDeCuenta;
     
     @Temporal(TemporalType.DATE)
@@ -41,8 +44,14 @@ public class Cuenta implements Serializable {
 
     }
 
-    public Cuenta(int id, String codigoCuentaCliente, float saldoActual, float saldoMedio, float deposito, Sucursal cuentaCreada, Cliente clienteDueño, TipoDeCuenta tipoDeCuenta, Date fechaApertura) {
-        this.id = id;
+    public Cuenta( String codigoCuentaCliente,
+                    double saldoActual,
+                    double saldoMedio,
+                    double deposito,
+                    Sucursal cuentaCreada,
+                    Cliente clienteDueño,
+                    TipoDeCuenta tipoDeCuenta,
+                    Date fechaApertura) {
         this.codigoCuentaCliente = codigoCuentaCliente;
         this.saldoActual = saldoActual;
         this.saldoMedio = saldoMedio;
@@ -67,27 +76,27 @@ public class Cuenta implements Serializable {
         return codigoCuentaCliente;
     }
 
-    public float getSaldoMedio() {
+    public double getSaldoMedio() {
         return saldoMedio;
     }
 
-    public void setSaldoMedio(float saldoMedio) {
+    public void setSaldoMedio(double saldoMedio) {
         this.saldoMedio = saldoMedio;
     }
 
-    public float getSaldoActual() {
+    public double getSaldoActual() {
         return saldoActual;
     }
 
-    public void setSaldoActual(float saldoActual) {
+    public void setSaldoActual(double saldoActual) {
         this.saldoActual = saldoActual;
     }
 
-    public float getDeposito() {
+    public double getDeposito() {
         return deposito;
     }
 
-    public void setDeposito(float deposito) {
+    public void setDeposito(double deposito) {
         this.deposito = deposito;
     }
 
@@ -97,14 +106,6 @@ public class Cuenta implements Serializable {
 
     public void setFechaApertura(Date fechaApertura) {
         this.fechaApertura = fechaApertura;
-    }
-
-    public Cliente getCliente() {
-        return clienteDueño;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.clienteDueño = cliente;
     }
 
     public TipoDeCuenta getTipoDeCuenta() {
@@ -131,14 +132,11 @@ public class Cuenta implements Serializable {
         this.clienteDueño = clienteDueño;
     }
 
-    
     @Override
     public String toString() {
-        return "Datos de Cuenta" + "\nCodigo Cuenta Cliente=" + codigoCuentaCliente
-                + "\n Saldo Actual=" + saldoActual
-                + "\n Saldo Medio=" + saldoMedio
-                + "\n Deposito=" + deposito
-                + "\n Fecha De Apertura=" + fechaApertura;
+        return "Cuenta{" + "saldoActual=" + saldoActual + ", saldoMedio=" + saldoMedio + ", deposito=" + deposito + ", codigoCuentaCliente=" + codigoCuentaCliente + ", cuentaCreada=" + cuentaCreada.getNombre() + ", clienteDue\u00f1o=" + clienteDueño.getNombre() + ", tipoDeCuenta=" + tipoDeCuenta.getTipo() + ", fechaApertura=" + fechaApertura + '}';
     }
+
+    
 
 }

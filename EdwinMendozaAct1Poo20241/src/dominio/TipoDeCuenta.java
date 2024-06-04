@@ -1,36 +1,50 @@
 package dominio;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class TipoDeCuenta implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    @Basic
-    private String identificacion;
+    @Basic()
     private String tipo;
-    private String beneficios;    
-    private double porcentajeAmortizacion;
-    private float saldoMinimo;
+    private String beneficios = "";
+    private double porcentajeAmortizacion = 0;
+    private double saldoMinimo = 0;
+    
+    @OneToMany(mappedBy = "tipoDeCuenta")
+    private LinkedList<Cuenta> cuentas;
 
     public TipoDeCuenta() {
 
     }
+    
+    public TipoDeCuenta(String tipo, double saldoMinimo) {
+        this.tipo = tipo;
+        this.saldoMinimo = saldoMinimo;
+    }
 
-    public TipoDeCuenta(String identificacion,String tipo, String beneficios, double porcentajeAmortizacion, float saldoMinimo) {
-        this.porcentajeAmortizacion = porcentajeAmortizacion;
+    public TipoDeCuenta( String tipo, String beneficios, double porcentajeAmortizacion, double saldoMinimo) {
         this.tipo = tipo;
         this.beneficios = beneficios;
+        this.porcentajeAmortizacion = porcentajeAmortizacion;
         this.saldoMinimo = saldoMinimo;
-        this.identificacion = identificacion;
+        this.cuentas = new LinkedList<>(); // arreglar en la base de dat0s
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -61,28 +75,33 @@ public class TipoDeCuenta implements Serializable {
         this.porcentajeAmortizacion = porcentajeAmortizacion;
     }
 
-    public float getSaldoMinimo() {
+    public double getSaldoMinimo() {
         return saldoMinimo;
     }
 
-    public void setSaldoMinimo(float saldoMinimo) {
+    public void setSaldoMinimo(double saldoMinimo) {
         this.saldoMinimo = saldoMinimo;
     }
 
-    public String getIdentificacion() {
-        return identificacion;
+    public LinkedList<Cuenta> getCuentas() {
+        return cuentas;
     }
 
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
+    public void setCuentas(LinkedList<Cuenta> cuentas) {
+        this.cuentas = cuentas;
+    }
+    
+    public void agregarCuentas(Cuenta objeto){
+        this.cuentas.add(objeto);
+    }
+    
+    public void removeCuentas(Cuenta objeto){
+        this.cuentas.remove(objeto);
     }
 
     @Override
     public String toString() {
-        return "Tipo De Cuenta" + "\n Nombre: " + tipo
-                + "\nPorcentaje De Amortizacion: " + porcentajeAmortizacion
-                + "\nBeneficios: " + beneficios
-                + "\nSaldo Minimo: " + saldoMinimo;
+        return "TipoDeCuenta{" + "tipo=" + tipo + ", beneficios=" + beneficios + ", porcentajeAmortizacion=" + porcentajeAmortizacion + ", saldoMinimo=" + saldoMinimo + '}';
     }
 
 }
