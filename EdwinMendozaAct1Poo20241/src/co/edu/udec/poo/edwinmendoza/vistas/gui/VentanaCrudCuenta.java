@@ -10,12 +10,12 @@ import co.edu.udec.poo.edwinmendoza.metodos.DeCadenaADate;
 import co.edu.udec.poo.edwinmendoza.metodos.TipoDeCuentaMetodosController;
 import com.toedter.calendar.JDateChooser;
 import dominio.Cuenta;
+import dominio.Sucursal;
 import dominio.TipoDeCuenta;
 import java.awt.Color;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -27,38 +27,15 @@ import javax.swing.JTextField;
  */
 public class VentanaCrudCuenta extends javax.swing.JDialog {
 
-    Cuenta nueva = new Cuenta();
+    
+    public Cuenta nueva = new Cuenta();
+    public int respuesta = 0;
     /**
      * Creates new form FormularioCuenta
      */
     public VentanaCrudCuenta(java.awt.Frame parent, boolean modal) throws Exception {
         super(parent, modal);
         initComponents();
-//        
-//        String labels[] = {"A", "B", "C", "D", "E"};
-//        DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
-//        JComboBox comboBoxName = new JComboBox();
-//        comboBoxName.setModel(model);
-
-        TipoDeCuentaMetodosController x = new TipoDeCuentaMetodosController();
-
-     //   tipoCuentaSelect.setModel(new DefaultComboBoxModel<>(new TipoDeCuenta [] {}));
-                
-        String[] arrayTiposCuentas = {};
-
-        if (x.ArrayTipoCuentas() != null) {
-            arrayTiposCuentas = x.ArrayTipoCuentas();
-//            arrayTiposCuentas[0] = "";
-
-        } else {
-
-        }
-        String[] tipos = x.ArrayTipoCuentas();
-
-        for (String s : arrayTiposCuentas) {
-            tipoCuentaSelect.addItem(s);
-        }
-
     }
 
     /**
@@ -79,11 +56,11 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         CampoSaldoActual = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        SucursalSelect = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         CampoCodigo = new javax.swing.JTextField();
         botonGeneral = new javax.swing.JButton();
         CampoFecha = new com.toedter.calendar.JDateChooser();
+        CampoSucursal = new javax.swing.JComboBox<>();
         BotonBuscar = new javax.swing.JButton();
         BotonEliminar = new javax.swing.JButton();
         BotonLimpiar = new javax.swing.JButton();
@@ -115,6 +92,7 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Tipo");
 
+        tipoCuentaSelect.setModel(new javax.swing.DefaultComboBoxModel<>(Principal.tipoCuentaBd.arrayTipoDeCuenta())  );
         tipoCuentaSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tipoCuentaSelectActionPerformed(evt);
@@ -136,12 +114,6 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Sucursal");
 
-        SucursalSelect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SucursalSelectActionPerformed(evt);
-            }
-        });
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Codigo Cuenta");
@@ -153,6 +125,13 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
         botonGeneral.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonGeneralActionPerformed(evt);
+            }
+        });
+
+        CampoSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(Principal.sucursalBd.arraySucursales()));
+        CampoSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CampoSucursalActionPerformed(evt);
             }
         });
 
@@ -179,9 +158,9 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(CampoSaldoActual, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(SucursalSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(CampoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonGeneral))))
+                            .addComponent(botonGeneral)
+                            .addComponent(CampoSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(178, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -202,7 +181,7 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(SucursalSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CampoSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -315,19 +294,21 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_tipoCuentaSelectActionPerformed
 
-    private void SucursalSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SucursalSelectActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SucursalSelectActionPerformed
-
     private void botonGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGeneralActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_botonGeneralActionPerformed
 
     private void BotonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarActionPerformed
         // TODO add your handling code here:
+        
+        this.respuesta = JOptionPane.showConfirmDialog(this, "seguro que desea agregar este banco", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
         String codigo = CampoCodigo.getText();
-        String fecha = CampoFecha.getDateFormatString();
+        Date fecha = CampoFecha.getDate();
         double saldo = Double.valueOf(CampoSaldoActual.getText());
+        TipoDeCuenta tipo = (TipoDeCuenta)tipoCuentaSelect.getSelectedItem();
+        Sucursal afiliado = (Sucursal) CampoSucursal.getSelectedItem();
         
         try {
             
@@ -339,29 +320,33 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
             CampoCodigo.selectAll();
             return;
         }
+        
         nueva.setSaldoMedio(0);
         nueva.setDeposito(0);
         nueva.setSaldoActual(saldo);
-        nueva.setFechaApertura(DeCadenaADate.convertir(fecha));
-        nueva.setCuentaCreada(Principal.sucursalBd.traerSucursal("1111"));
-        TipoDeCuenta tipo = null;
-        try {
-            tipo = tipoCuentaBd.buscarTipoDeCuenta("Corriente");
-        } catch (Exception ex) {
-            Logger.getLogger(VentanaCrudCuenta.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        nueva.setTipoDeCuenta(tipo);
+        nueva.setFechaApertura(fecha);
+        nueva.setCuentaCreada(Principal.sucursalBd.traerSucursal(afiliado.getCodigo()));
+        
+                try {
+                    nueva.setTipoDeCuenta(Principal.tipoCuentaBd.buscarTipoDeCuenta(tipo.getTipo()));
+                } catch (Exception ex) {
+                    Logger.getLogger(VentanaCrudCuenta.class.getName()).log(Level.SEVERE, null, ex);
+                }
         nueva.setClienteDueño(Principal.getClienteSesion());
         try {
             
             if (!Principal.cuentaBd.existeCuenta(nueva)) {
-                JOptionPane.showMessageDialog(this,"se agrego una sucursal a la base de datos"); 
+                JOptionPane.showMessageDialog(this,"se agrego una cuenta a la base de datos"); 
             }
             Principal.cuentaBd.crearCuenta(nueva);
+            tipo.agregarTipoCuentas(nueva);
+            afiliado.agregarCuentas(nueva);
+            Principal.sucursalBd.editarSucursal(afiliado);
+            Principal.tipoCuentaBd.editarTipoDeCuenta(tipo);
         } catch (Exception ex) {
             
         }
-        
+        }
         BotonLimpiarActionPerformed(evt);
     }//GEN-LAST:event_BotonAgregarActionPerformed
 
@@ -376,20 +361,20 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
             try {
                 
                 nueva = Principal.cuentaBd.encontrarBanco(codigo);
-                if (Principal.sucursalBd.traerSucursal(codigo) == null) {
-                    JOptionPane.showMessageDialog(this, "La sucursal que busca no se encuentra");
+                if (nueva == null) {
+                    JOptionPane.showMessageDialog(this, "La cuenta que busca no se encuentra");
                     
                 }else{
                     CampoCodigo.setText(nueva.getCodigoCuentaCliente());
                     CampoFecha.setDate(nueva.getFechaApertura());
                     CampoSaldoActual.setText(String.valueOf(nueva.getSaldoActual()));
-                    tipoCuentaSelect.setToolTipText(nueva.getTipoDeCuenta().getTipo());
+                   
                     
                     String titulo = this.getTitle();
                     if (titulo.indexOf("Editar") != -1){
                         
                         CampoCodigo.setEditable(false); 
-                        
+                        CampoSaldoActual.setEditable(true);
                     }
                     }
                 
@@ -402,24 +387,87 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
 
     private void BotonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEditarActionPerformed
         // TODO add your handling code here:
+        this.respuesta = JOptionPane.showConfirmDialog(this, "seguro que desea agregar este banco", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            String codigo = CampoCodigo.getText();
+        Date fecha = CampoFecha.getDate();
+        double saldo = Double.valueOf(CampoSaldoActual.getText());
+        TipoDeCuenta tipo = (TipoDeCuenta)tipoCuentaSelect.getSelectedItem();
+        Sucursal afiliado = (Sucursal) CampoSucursal.getSelectedItem();
+        
+        
+        try {
+            if (fecha == null) {
+                JOptionPane.showMessageDialog(this, "Es obligatorio ingresar la fecha");
+                return;
+            }
+            nueva.setCodigoCuentaCliente(codigo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ingrese los datos de manera correcta");
+            return;
+        }
+        nueva.setSaldoMedio(0);
+        nueva.setDeposito(0);
+        nueva.setSaldoActual(saldo);
+        nueva.setFechaApertura(fecha);
+        nueva.setCuentaCreada(Principal.sucursalBd.traerSucursal(afiliado.getCodigo()));
+        
+                try {
+                    nueva.setTipoDeCuenta(Principal.tipoCuentaBd.buscarTipoDeCuenta(tipo.getTipo()));
+                } catch (Exception ex) {
+                    Logger.getLogger(VentanaCrudCuenta.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        nueva.setClienteDueño(Principal.getClienteSesion());
+        try {
+            
+            if (!Principal.cuentaBd.existeCuenta(nueva)) {
+                JOptionPane.showMessageDialog(this,"se agrego una cuenta a la base de datos"); 
+            }
+            Principal.cuentaBd.editarCuenta(nueva);
+            tipo.agregarTipoCuentas(nueva);
+            afiliado.agregarCuentas(nueva);
+            Principal.sucursalBd.editarSucursal(afiliado);
+            Principal.tipoCuentaBd.editarTipoDeCuenta(tipo);
+        } catch (Exception ex) {
+            
+        }
+            BotonLimpiarActionPerformed(evt);
+        }
     }//GEN-LAST:event_BotonEditarActionPerformed
 
     private void BotonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarActionPerformed
         // TODO add your handling code here:
+        this.respuesta = JOptionPane.showConfirmDialog(this, "¿Esta seguro que desea eliminar este empleado?", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            String codigo = CampoCodigo.getText();
+            try {
+                Principal.cuentaBd.eliminarCuenta(codigo);
+            JOptionPane.showMessageDialog(this, "Se a eliminado el objeto de la base de datos");
+                BotonLimpiarActionPerformed(evt);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "No se puede eliminar una cuenta que no existe en la base de datos");
+            }
+        }
+        
     }//GEN-LAST:event_BotonEliminarActionPerformed
 
     private void BotonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLimpiarActionPerformed
         // TODO add your handling code here:
         CampoCodigo.setText("");
         CampoSaldoActual.setText("");
+        String titulo = this.getTitle();
+                    if (titulo.indexOf("Editar") != -1){
+                        
+                        CampoCodigo.setEditable(true); 
+                        CampoSaldoActual.setEditable(false);
+                    }
         
     }//GEN-LAST:event_BotonLimpiarActionPerformed
 
-//    public TipoDeCuenta tipo(){
-//    
-//        String obtener = tipoCuentaSelect.getToolTipText();
-//        
-//    }
+    private void CampoSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoSucursalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CampoSucursalActionPerformed
+
     public JButton getBotonAgregar() {
         return BotonAgregar;
     }
@@ -484,12 +532,12 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
         this.CampoCodigo = CampoCodigo;
     }
 
-    public JComboBox<String> getSucursalSelect() {
-        return SucursalSelect;
+    public JComboBox<Sucursal> getCampoSucursal() {
+        return CampoSucursal;
     }
 
-    public void setSucursalSelect(JComboBox<String> SucursalSelect) {
-        this.SucursalSelect = SucursalSelect;
+    public void setCampoSucursal(JComboBox<Sucursal> CampoSucursal) {
+        this.CampoSucursal = CampoSucursal;
     }
 
     public JButton getBotonGeneral() {
@@ -509,7 +557,7 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
     private javax.swing.JTextField CampoCodigo;
     private com.toedter.calendar.JDateChooser CampoFecha;
     private javax.swing.JTextField CampoSaldoActual;
-    private javax.swing.JComboBox<String> SucursalSelect;
+    private javax.swing.JComboBox<Sucursal> CampoSucursal;
     private javax.swing.JButton botonGeneral;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -519,7 +567,7 @@ public class VentanaCrudCuenta extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JComboBox<String> tipoCuentaSelect;
+    private javax.swing.JComboBox<TipoDeCuenta> tipoCuentaSelect;
     // End of variables declaration//GEN-END:variables
 
 }

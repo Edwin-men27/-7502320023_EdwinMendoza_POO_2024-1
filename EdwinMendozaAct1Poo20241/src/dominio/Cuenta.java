@@ -1,7 +1,11 @@
 package dominio;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -137,6 +141,23 @@ public class Cuenta implements Serializable {
         return "Cuenta{" + "saldoActual=" + saldoActual + ", saldoMedio=" + saldoMedio + ", deposito=" + deposito + ", codigoCuentaCliente=" + codigoCuentaCliente + ", cuentaCreada=" + cuentaCreada.getNombre() + ", clienteDue\u00f1o=" + clienteDueño.getNombre() + ", tipoDeCuenta=" + tipoDeCuenta.getTipo() + ", fechaApertura=" + fechaApertura + '}';
     }
 
-    
+//    "Dueño","Codigo Identificador","Tipo cuenta", "Sucursal","Saldo actual", "Fecha Creacion"
 
+    public Vector<String> convertirAVector(){
+        Vector<String> datos = new Vector<String>();
+        
+        datos.addElement(codigoCuentaCliente);
+        datos.addElement(String.valueOf(saldoActual));
+        datos.add(cuentaCreada.getNombre());
+        datos.add(tipoDeCuenta.getTipo());
+        datos.add(clienteDueño.getNombre());
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
+        
+        String fecha = formatter.format(fechaApertura);
+        datos.add(fecha);
+        
+
+        return datos;
+    }
 }

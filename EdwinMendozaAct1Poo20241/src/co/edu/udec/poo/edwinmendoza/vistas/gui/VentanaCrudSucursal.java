@@ -5,12 +5,10 @@
 package co.edu.udec.poo.edwinmendoza.vistas.gui;
 
 import co.edu.udec.poo.edwinmendoza.Principal;
+import dominio.Banco;
 import dominio.Sucursal;
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -21,6 +19,7 @@ import javax.swing.JTextField;
 public class VentanaCrudSucursal extends javax.swing.JDialog {
 
     public Sucursal nueva = new Sucursal();
+    public int respuesta = 0;
     /**
      * Creates new form FormularioSucursal
      */
@@ -48,19 +47,14 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         CampoNombre = new javax.swing.JTextField();
         CampoCodigo = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         CampoDireccion = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        RemoverEmpleado = new javax.swing.JButton();
-        BotonAgregarEmpleado = new javax.swing.JButton();
         CampoCodigoPostal = new javax.swing.JTextField();
         texto = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         CampoInforme = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        CampoBanco = new javax.swing.JComboBox<>();
         BotonAgregar = new javax.swing.JButton();
         BotonEditar = new javax.swing.JButton();
         BotonBuscar = new javax.swing.JButton();
@@ -122,54 +116,24 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
                 CampoCodigoActionPerformed(evt);
             }
         });
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel7.setText("Empleados");
+        CampoCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                CampoCodigoKeyTyped(evt);
+            }
+        });
 
         CampoDireccion.setFont(new java.awt.Font("Segoe UI", 2, 10)); // NOI18N
-
-        jLabel8.setText("parte de la sucursal");
-
-        jLabel9.setText("seleccione los empleados que hacen ");
-
-        jList1.setFont(new java.awt.Font("Segoe UI", 2, 10)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGap(0, 250, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 55, Short.MAX_VALUE)
         );
-
-        RemoverEmpleado.setText("Remover");
-
-        BotonAgregarEmpleado.setText("Agregar");
 
         CampoCodigoPostal.setFont(new java.awt.Font("Segoe UI", 2, 10)); // NOI18N
         CampoCodigoPostal.addActionListener(new java.awt.event.ActionListener() {
@@ -188,49 +152,61 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
 
         CampoInforme.setFont(new java.awt.Font("Segoe UI", 2, 10)); // NOI18N
 
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel10.setText("Banco");
+
+        CampoBanco.setModel(new javax.swing.DefaultComboBoxModel<>(Principal.bancoBd.arrayBancos()));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(38, 38, 38)
+                                            .addComponent(jLabel4))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                            .addContainerGap()
+                                            .addComponent(jLabel3)))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(CampoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(CampoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(51, 51, 51)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel6)
+                                        .addComponent(texto)
+                                        .addComponent(jLabel5))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(CampoCodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(CampoInforme, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                        .addComponent(CampoDireccion))))
+                            .addGap(22, 22, 22)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(103, 103, 103)
+                        .addComponent(jLabel10)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(CampoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(CampoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BotonAgregarEmpleado)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RemoverEmpleado)
-                        .addGap(24, 24, 24))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(texto, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(CampoDireccion)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(CampoCodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(CampoInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addGap(0, 45, Short.MAX_VALUE))
+                        .addComponent(CampoBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 29, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(CampoBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(CampoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -250,19 +226,8 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CampoInforme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel7)
-                        .addGap(121, 121, 121))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RemoverEmpleado)
-                    .addComponent(BotonAgregarEmpleado))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         BotonAgregar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -305,7 +270,7 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
+                .addContainerGap(65, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -324,7 +289,7 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
                                 .addComponent(BotonLimpiar))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(61, 61, 61)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(43, 43, 43))))
         );
@@ -335,20 +300,20 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(191, 191, 191)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BotonBuscar)
+                            .addComponent(BotonEliminar)
+                            .addComponent(BotonLimpiar)
+                            .addComponent(BotonEditar)
+                            .addComponent(BotonAgregar))
+                        .addGap(47, 47, 47))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonBuscar)
-                    .addComponent(BotonEliminar)
-                    .addComponent(BotonLimpiar)
-                    .addComponent(BotonEditar)
-                    .addComponent(BotonAgregar))
-                .addGap(36, 36, 36))
+                        .addGap(102, 102, 102)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -361,11 +326,16 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
 
     private void BotonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarActionPerformed
         // TODO add your handling code here:
+        
+        this.respuesta = JOptionPane.showConfirmDialog(this, "¿seguro que desea agregar esta sucursal?", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
         String nombre = CampoNombre.getText();
         String direccion = CampoDireccion.getText();
         String codigoSucursal = CampoCodigo.getText();
         String codigoPostal = CampoCodigoPostal.getText();
         String informe = CampoInforme.getText();
+        Banco afiliado = (Banco)CampoBanco.getSelectedItem();
+        
         
         try {
             int codigo = Integer.valueOf(codigoSucursal);
@@ -382,7 +352,7 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
         nueva.setNombre(nombre);
         nueva.setInforme(informe);
         try {
-            nueva.setBancoAfiliado(Principal.bancoBd.buscarBanco("1111"));
+            nueva.setBancoAfiliado(Principal.bancoBd.buscarBanco(afiliado.getCodigoIdentificador()));
             if (!Principal.sucursalBd.ExisteSucursal(nueva)) {
                 JOptionPane.showMessageDialog(this,"se agrego una sucursal a la base de datos"); 
             }
@@ -392,6 +362,7 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
         }
         
         BotonLimpiarActionPerformed(evt);
+        }
     }//GEN-LAST:event_BotonAgregarActionPerformed
 
     private void BotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarActionPerformed
@@ -403,7 +374,7 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
             return;
         }else {
             try {
-                int id = Integer.valueOf(codigo);
+                
                 nueva = Principal.sucursalBd.buscarSucursal(codigo);
                 if (Principal.sucursalBd.traerSucursal(codigo) == null) {
                     JOptionPane.showMessageDialog(this, "La sucursal que busca no se encuentra");
@@ -421,8 +392,6 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
                         CampoDireccion.setEditable(true);
                         CampoCodigoPostal.setEditable(true);
                         CampoInforme.setEditable(true);
-                        BotonAgregarEmpleado.setEnabled(true);
-                        RemoverEmpleado.setEnabled(true);
                     }
                     }
                 
@@ -434,32 +403,41 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
 
     private void BotonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEditarActionPerformed
         // TODO add your handling code here:
+        
+        this.respuesta = JOptionPane.showConfirmDialog(this, "¿seguro que desea realizar estos cambios?", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
         String nombre = CampoNombre.getText();
         String direccion = CampoDireccion.getText();
-        String codigoSucursal = CampoCodigoPostal.getText();
-        String codigoPostal = CampoCodigo.getText();
+        String codigoSucursal = CampoCodigo.getText();
+        String codigoPostal = CampoCodigoPostal.getText();
         String informe = CampoInforme.getText();
-        
+        Banco afiliado = (Banco)CampoBanco.getSelectedItem();
        
-        nueva.setCodigo(codigoSucursal);
-        nueva.setCodigoPostal(codigoPostal);
-        nueva.setDireccion(direccion);
-        nueva.setNombre(nombre);
-        nueva.setInforme(informe);
+        this.nueva.setCodigo(codigoSucursal);
+        this.nueva.setCodigoPostal(codigoPostal);
+        this.nueva.setDireccion(direccion);
+        this.nueva.setNombre(nombre);
+        this.nueva.setInforme(informe);
         try {
-            nueva.setBancoAfiliado(Principal.bancoBd.buscarBanco("1111"));
+            
+            this.nueva.setBancoAfiliado(Principal.bancoBd.buscarBanco(afiliado.getCodigoIdentificador()));
             Principal.sucursalBd.editarSucursal(nueva);
+            
+            afiliado.agregarSucursal(nueva);
+            Principal.bancoBd.editarBanco(afiliado);
             if (Principal.sucursalBd.traerSucursal(codigoSucursal) != null) {
                 JOptionPane.showMessageDialog(this,"se edito la sucursal en la base de datos"); 
                 BotonLimpiarActionPerformed(evt);
             }
         } catch (Exception ex) {
-            
+        }  
         }
     }//GEN-LAST:event_BotonEditarActionPerformed
 
     private void BotonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarActionPerformed
         // TODO add your handling code here:
+        this.respuesta = JOptionPane.showConfirmDialog(this, "¿seguro que desea eliminar esta sucursal?", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
         String codigo = CampoCodigo.getText();
         int respuesta = JOptionPane.showConfirmDialog(this, "seguro que desea eliminar este banco", "Advertencia", JOptionPane.YES_NO_OPTION);
         if (respuesta == JOptionPane.YES_OPTION) {
@@ -470,7 +448,7 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "No se puede eliminar un banco que no existe en la base de datos");
             }
-            
+        }
         }
         
     }//GEN-LAST:event_BotonEliminarActionPerformed
@@ -479,11 +457,11 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
         // TODO add your handling code here:
         String titulo = this.getTitle();
                     if (titulo.indexOf("Editar") != -1) {
-                        CampoNombre.setEditable(true);
-                        CampoCodigo.setEditable(false); 
-                        CampoDireccion.setEditable(true);
-                        CampoCodigoPostal.setEditable(true);
-                        CampoInforme.setEditable(true);
+                        CampoNombre.setEditable(false);
+                        CampoCodigo.setEditable(true); 
+                        CampoDireccion.setEditable(false);
+                        CampoCodigoPostal.setEditable(false);
+                        CampoInforme.setEditable(false);
                     }
                     
         //Limpiar campos
@@ -498,20 +476,20 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_CampoCodigoPostalActionPerformed
 
+    private void CampoCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CampoCodigoKeyTyped
+        // TODO add your handling code here:
+                char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_CampoCodigoKeyTyped
+
     public JButton getBotonAgregar() {
         return BotonAgregar;
     }
 
     public void setBotonAgregar(JButton BotonAgregar) {
         this.BotonAgregar = BotonAgregar;
-    }
-
-    public JButton getBotonAgregarEmpleado() {
-        return BotonAgregarEmpleado;
-    }
-
-    public void setBotonAgregarEmpleado(JButton BotonAgregarEmpleado) {
-        this.BotonAgregarEmpleado = BotonAgregarEmpleado;
     }
 
     public JButton getBotonBuscar() {
@@ -585,43 +563,29 @@ public class VentanaCrudSucursal extends javax.swing.JDialog {
     public void setCampoNombre(JTextField CampoNombre) {
         this.CampoNombre = CampoNombre;
     }
-
-    public JButton getRemoverEmpleado() {
-        return RemoverEmpleado;
-    }
-
-    public void setRemoverEmpleado(JButton RemoverEmpleado) {
-        this.RemoverEmpleado = RemoverEmpleado;
-    }
-
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonAgregar;
-    private javax.swing.JButton BotonAgregarEmpleado;
     private javax.swing.JButton BotonBuscar;
     private javax.swing.JButton BotonEditar;
     private javax.swing.JButton BotonEliminar;
     private javax.swing.JButton BotonLimpiar;
+    private javax.swing.JComboBox<Banco> CampoBanco;
     private javax.swing.JTextField CampoCodigo;
     private javax.swing.JTextField CampoCodigoPostal;
     private javax.swing.JTextField CampoDireccion;
     private javax.swing.JTextField CampoInforme;
     private javax.swing.JTextField CampoNombre;
-    private javax.swing.JButton RemoverEmpleado;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel texto;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,6 +4,8 @@
  */
 package co.edu.udec.poo.edwinmendoza.metodos;
 
+
+import co.edu.udec.poo.edwinmendoza.Principal;
 import co.edu.udec.poo.edwinmendoza.persistencia.SucursalJpaController;
 import co.edu.udec.poo.edwinmendoza.persistencia.exceptions.NonexistentEntityException;
 import dominio.Sucursal;
@@ -11,8 +13,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class SucursalMetodosController {
@@ -46,7 +46,7 @@ public class SucursalMetodosController {
 
     public void editarSucursal(Sucursal objeto) {
         try {
-            if (!ExisteSucursal(objeto)) {
+            if (!(ExisteSucursal(objeto))) {
                 throw new Exception("La sucursal no se encuentra agregado en la base de datos");
             }
             sucursalBd.edit(objeto);
@@ -125,4 +125,18 @@ public class SucursalMetodosController {
                 return null;
             }
     }
+    
+    public Sucursal[] arraySucursales(){
+        
+        
+        List<Sucursal> listado = traerListaSucursales();
+        Sucursal[] elementos = new Sucursal[listado.size()];
+        for(int i = 0; i < listado.size();i++){
+            elementos[i] = listado.get(i);
+        }
+    
+    return elementos;
+    }
+    
+//    
 }

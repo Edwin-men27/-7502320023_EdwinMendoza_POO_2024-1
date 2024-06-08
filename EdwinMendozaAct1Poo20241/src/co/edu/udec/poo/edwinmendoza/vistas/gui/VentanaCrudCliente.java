@@ -5,44 +5,43 @@
 package co.edu.udec.poo.edwinmendoza.vistas.gui;
 
 import co.edu.udec.poo.edwinmendoza.Principal;
-import co.edu.udec.poo.edwinmendoza.metodos.DeCadenaADate;
 import co.edu.udec.poo.edwinmendoza.metodos.OrganizacionMetodosController;
 import co.edu.udec.poo.edwinmendoza.metodos.PersonaFisicaMetodosController;
 import dominio.Organizacion;
 import dominio.PersonaFisica;
+import dominio.RepresentanteOrganizacion;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.Iterator;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 
 /**
  *
  * @author Edwin
  */
 public class VentanaCrudCliente extends javax.swing.JDialog {
-    public PersonaFisicaMetodosController personaBd = new PersonaFisicaMetodosController();
-    public OrganizacionMetodosController organizacionBd = new OrganizacionMetodosController();
+
     public VentanaCrudOrganizacion organizacion = new VentanaCrudOrganizacion();
     public VentanaCrudPersonaFisica persona = new VentanaCrudPersonaFisica();
     public PersonaFisica nuevaPersona = new PersonaFisica();
     public Organizacion nuevaOrganizacion = new Organizacion();
-    
-    String clave;
-    String nombre;
-    String identificacion;
-    String direccion;
-    String fechaNacimiento;
-    String sexo;
-    String cantidad;
-    String tipoOrganizacion;
-    String concepto;
-    
+    public RepresentanteOrganizacion representante = new RepresentanteOrganizacion();
+
+    public String clave;
+    public String nombre;
+    public String identificacion;
+    public String direccion;
+    public Date fechaNacimiento;
+    public String sexo;
+    public String cantidad;
+    public String tipoOrganizacion;
+    public String concepto;
+    public String nombreRepresentante;
+    public int respuesta = 0;
+
     /**
      * Creates new form CrudCliente
      */
@@ -50,7 +49,6 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
-        
         this.persona.setSize(663, 539);
 
         this.persona.setLocation(0, 0);
@@ -75,8 +73,6 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
         esPersonaFisica = new javax.swing.JRadioButton();
         esOrganizacion = new javax.swing.JRadioButton();
         labelTipoCliente = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        CampoSucursal = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         BotonAgregar = new javax.swing.JButton();
@@ -111,11 +107,6 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
         labelTipoCliente.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         labelTipoCliente.setText("Tipo de cliente");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Sucursal");
-
-        CampoSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/udec/poo/edwinmendoza/vistas/gui/iconos/atencion-al-cliente.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -131,7 +122,7 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -156,6 +147,11 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
         BotonEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         BotonEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/udec/poo/edwinmendoza/vistas/gui/iconos/edit_5953114.png"))); // NOI18N
         BotonEditar.setText("Editar");
+        BotonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonEditarActionPerformed(evt);
+            }
+        });
 
         BotonBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         BotonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/edu/udec/poo/edwinmendoza/vistas/gui/iconos/search_5953174.png"))); // NOI18N
@@ -203,12 +199,9 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(48, 48, 48)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(45, 45, 45)
+                                    .addGap(148, 148, 148)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(BotonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(CampoSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(BotonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(BotonAgregar)
@@ -226,11 +219,7 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(esOrganizacion)
                     .addComponent(esPersonaFisica))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(CampoSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(56, 56, 56)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotonAgregar)
                     .addComponent(BotonBuscar))
@@ -280,7 +269,7 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
 
     private void esPersonaFisicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_esPersonaFisicaActionPerformed
         // TODO add your handling code here:
-        
+
         this.persona.setSize(663, 539);
 
         this.persona.setLocation(0, 0);
@@ -289,12 +278,12 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
         dinamicContent.add(this.persona, BorderLayout.CENTER);
         dinamicContent.revalidate();
         dinamicContent.repaint();
-        
+
     }//GEN-LAST:event_esPersonaFisicaActionPerformed
 
     private void esOrganizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_esOrganizacionActionPerformed
         // TODO add your handling code here:
-        
+
         this.organizacion.setSize(663, 539);
 
         this.organizacion.setLocation(0, 0);
@@ -307,183 +296,222 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
 
     private void BotonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarActionPerformed
         // TODO add your handling code here:
-        String respuesta = seleccion();
-        switch (respuesta) {
-            case "Persona Fisica":
-                clave = String.valueOf(persona.getCampoClave().getPassword());
-                nombre = persona.getCampoNombre().getText();
-                identificacion = persona.getCampoCodigo().getText();
-                direccion = persona.getCampoDireccion().getText();
-                fechaNacimiento = persona.getCampoFechaNacimiento().getDateFormatString();
-                sexo = (String)persona.getCampoSexo().getSelectedItem();
-                
-                try {
-                int verificar = Integer.valueOf(identificacion);
-                this.nuevaPersona.setIdentificacion(identificacion);
-                    if (fechaNacimiento == null) {
-                        JOptionPane.showMessageDialog(this, "Es obligatorio ingresar la fecha");
+        String tipoCliente = seleccion();
+
+        this.respuesta = JOptionPane.showConfirmDialog(this, "seguro que desea agregar este Cliente", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            switch (tipoCliente) {
+                case "Persona Fisica":
+                    clave = String.valueOf(persona.getCampoClave().getPassword());
+                    nombre = persona.getCampoNombre().getText();
+                    identificacion = persona.getCampoCodigo().getText();
+                    direccion = persona.getCampoDireccion().getText();
+                    fechaNacimiento = persona.getCampoFechaNacimiento().getDate();
+                    sexo = (String) persona.getCampoSexo().getSelectedItem();
+
+                    try {
+                        int verificar = Integer.valueOf(identificacion);
+                        this.nuevaPersona.setIdentificacion(identificacion);
+                        if (fechaNacimiento == null) {
+                            JOptionPane.showMessageDialog(this, "Es obligatorio ingresar la fecha");
+                        }
+                        this.nuevaPersona.setFechaNacimiento(fechaNacimiento);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "ingrese los datos de manera correcta");
+                        return;
                     }
-                this.nuevaPersona.setFechaNacimiento(DeCadenaADate.convertir(fechaNacimiento));
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "ingrese los datos de manera correcta");
-                    return;
-                }
-        
-                this.nuevaPersona.setNombre(nombre);
-                this.nuevaPersona.setClave(clave);
-                this.nuevaPersona.setDireccion(direccion);
-                this.nuevaPersona.setSaldo(0);
-                
-                this.nuevaPersona.setSexo(sexo);
-                //--
-        
-                //--
-                Principal.personaBd.crearPersonaFisica(this.nuevaPersona);
-                JOptionPane.showMessageDialog(this, "se agrego un cliente al sistema");
-                BotonLimpiarActionPerformed(evt);
-                break;
-                
-            case "Organizacion":
-                 clave = String.valueOf(organizacion.getCampoClave().getPassword());
-                 nombre = organizacion.getCampoNombre().getText();
-                 identificacion = organizacion.getCampoCodigo().getText();
-                 direccion = organizacion.getCampoDireccion().getText();
-                 cantidad = organizacion.getCantidadDeEmpleados().getText();
-                 tipoOrganizacion = organizacion.getCampoTipoOrganizacion().getText();
-                 concepto = organizacion.getCampoConcepto().getText();
-                 
-                
-                try {
-                int verificar = Integer.valueOf(identificacion);
-                this.nuevaOrganizacion.setIdentificacion(identificacion);
+
+                    this.nuevaPersona.setNombre(nombre);
+                    this.nuevaPersona.setClave(clave);
+                    this.nuevaPersona.setDireccion(direccion);
+                    this.nuevaPersona.setSaldo(0);
+
+                    this.nuevaPersona.setSexo(sexo);
+                    //--
+
+                    //--
+                    Principal.personaBd.crearPersonaFisica(this.nuevaPersona);
+                    JOptionPane.showMessageDialog(this, "se agrego un cliente al sistema");
+
+                    break;
+
+                case "Organizacion":
+                    clave = String.valueOf(organizacion.getCampoClave().getPassword());
+                    nombre = organizacion.getCampoNombre().getText();
+                    identificacion = organizacion.getCampoCodigo().getText();
+                    direccion = organizacion.getCampoDireccion().getText();
+                    cantidad = organizacion.getCantidadDeEmpleados().getText();
+                    tipoOrganizacion = organizacion.getCampoTipoOrganizacion().getText();
+                    concepto = organizacion.getCampoConcepto().getText();
+                    nombreRepresentante = organizacion.getNombreRepresentante().getText();
+                    try {
+                        int verificar = Integer.valueOf(identificacion);
+                        this.nuevaOrganizacion.setIdentificacion(identificacion);
+                        this.representante.setNombre(nombreRepresentante);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "ingrese los datos de manera correcta");
+                        return;
+                    }
+
+                    this.nuevaOrganizacion.setNombre(nombre);
+                    this.nuevaOrganizacion.setClave(clave);
+                    this.nuevaOrganizacion.setDireccion(direccion);
+                    this.nuevaOrganizacion.setSaldo(0);
+                    this.nuevaOrganizacion.setCantidadEmpleados(cantidad);
+                    this.nuevaOrganizacion.setTipoOrganizacion(tipoOrganizacion);
+                    this.nuevaOrganizacion.setConcepto(concepto);
                     
-                
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "ingrese los datos de manera correcta");
-                    return;
-                }
-        
-                this.nuevaOrganizacion.setNombre(nombre);
-                this.nuevaOrganizacion.setClave(clave);
-                this.nuevaOrganizacion.setDireccion(direccion);
-                this.nuevaOrganizacion.setSaldo(0);
-                this.nuevaOrganizacion.setCantidadEmpleados(cantidad);
-                this.nuevaOrganizacion.setTipoOrganizacion(tipoOrganizacion);
-                this.nuevaOrganizacion.setConcepto(concepto);
-                
-                //--
-        
-                //--
-                Principal.organizacionBd.crearOrganizacion(this.nuevaOrganizacion);
-                JOptionPane.showMessageDialog(this, "se agrego un cliente al sistema");
-                BotonLimpiarActionPerformed(evt);
-                break;
-            default:
-                throw new AssertionError();
+                    //--
+                    //--
+                    Principal.organizacionBd.crearOrganizacion(this.nuevaOrganizacion);
+                    this.representante.setOrganizacion(nuevaOrganizacion);
+                    Principal.representanteBd.crearRepresentante(this.representante);
+                    JOptionPane.showMessageDialog(this, "se agrego un cliente al sistema");
+
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
-        
+        BotonLimpiarActionPerformed(evt);
     }//GEN-LAST:event_BotonAgregarActionPerformed
 
     private void BotonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLimpiarActionPerformed
         // TODO add your handling code here:
-        String respuesta = seleccion();
-        persona.getCampoClave().setText("");
-        persona.getCampoNombre().setText("");
-        persona.getCampoCodigo().setText("");
-        persona.getCampoDireccion().setText("");
-        switch (respuesta) {
+        String tipoCliente = seleccion();
+
+        switch (tipoCliente) {
             case "Persona Fisica":
-                
+                persona.getCampoClave().setText("");
+                persona.getCampoNombre().setText("");
+                persona.getCampoCodigo().setText("");
+                persona.getCampoDireccion().setText("");
+
                 break;
-                
-            case "Organizacion":  
+
+            case "Organizacion":
+                organizacion.getCampoCodigo().setText("");
+                organizacion.getCampoClave().setText("");
+                organizacion.getCampoDireccion().setText("");
+                organizacion.getCampoNombre().setText("");
                 organizacion.getCantidadDeEmpleados().setText("");
                 organizacion.getCampoConcepto().setText("");
-                organizacion.getCampoTipoOrganizacion().setText("");  
+                organizacion.getCampoTipoOrganizacion().setText("");
+                organizacion.getNombreRepresentante().setText("");
             default:
                 throw new AssertionError();
         }
-        
-        
-        
-        
+        String titulo = this.getTitle();
+        if (titulo.indexOf("Editar") != -1) {
+            switch (tipoCliente) {
+                case "Persona Fisica":
+                    persona.getCampoClave().setEditable(false);
+                    persona.getCampoNombre().setEditable(false);
+                    persona.getCampoCodigo().setEditable(true);
+                    persona.getCampoDireccion().setEditable(false);
+                    break;
+
+                case "Organizacion":
+                    organizacion.getCampoCodigo().setEditable(true);
+                    organizacion.getCampoClave().setEditable(false);
+                    organizacion.getCampoDireccion().setEditable(false);
+                    organizacion.getCampoNombre().setEditable(false);
+                    organizacion.getCantidadDeEmpleados().setEditable(false);
+                    organizacion.getCampoConcepto().setEditable(false);
+                    organizacion.getCampoTipoOrganizacion().setEditable(false);
+                    organizacion.getNombreRepresentante().setEditable(false);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+
+        }
+
+
     }//GEN-LAST:event_BotonLimpiarActionPerformed
 
     private void BotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarActionPerformed
         // TODO add your handling code here:
         String codigo = persona.getCampoCodigo().getText();
+        String codigoOrga = organizacion.getCampoCodigo().getText();
         String titulo = this.getTitle();
-        String respuesta = seleccion();            
-        switch (respuesta) {
+        String tipoCliente = seleccion();
+
+        switch (tipoCliente) {
             case "Persona Fisica":
-                
+
                 if (codigo.isEmpty() == true) {
-                    JOptionPane.showMessageDialog(this, "El codigo se requiere para buscar un banco");
+                    JOptionPane.showMessageDialog(this, "El codigo se requiere para buscar unun cliente");
                     return;
-                }else {try {
-                       nuevaPersona = Principal.personaBd.buscarPersonaFisica(codigo);
-                       if (Principal.personaBd.traerPersonaFisica(codigo) == null) {
-                        JOptionPane.showMessageDialog(this, "El cliente no se encuentra en la base de datos");
-                    }else{
-                        Date fecha = nuevaPersona.getFechaNacimiento();
-                        persona.getCampoClave().setText(nuevaPersona.getClave());
-                        persona.getCampoNombre().setText(nuevaPersona.getNombre());
-                        persona.getCampoCodigo().setText(nuevaPersona.getIdentificacion());
-                        persona.getCampoDireccion().setText(nuevaPersona.getDireccion());
-                        persona.getCampoFechaNacimiento().setDate(fecha);
-                        persona.getCampoSexo().setToolTipText(nuevaPersona.getSexo());
-                       
-                       }
-                       if (titulo.indexOf("Editar") != -1) {
-                        persona.getCampoNombre().setEditable(true);
-                        persona.getCampoCodigo().setEditable(false);
-                        persona.getCampoClave().setEditable(true);
-                        persona.getCampoDireccion().setEditable(true);
-                        persona.getCampoSexo().setEditable(true);       
-                    }
+                } else {
+                    try {
+                        nuevaPersona = Principal.personaBd.buscarPersonaFisica(codigo);
+                        if (Principal.personaBd.traerPersonaFisica(codigo) == null) {
+                            JOptionPane.showMessageDialog(this, "El cliente no se encuentra en la base de datos");
+                        } else {
+                            Date fecha = nuevaPersona.getFechaNacimiento();
+                            persona.getCampoClave().setText(nuevaPersona.getClave());
+                            persona.getCampoNombre().setText(nuevaPersona.getNombre());
+                            persona.getCampoCodigo().setText(nuevaPersona.getIdentificacion());
+                            persona.getCampoDireccion().setText(nuevaPersona.getDireccion());
+                            persona.getCampoFechaNacimiento().setDate(fecha);
+                            persona.getCampoSexo().setToolTipText(nuevaPersona.getSexo());
+
+                        }
+                        if (titulo.indexOf("Editar") != -1) {
+                            persona.getCampoNombre().setEditable(true);
+                            persona.getCampoCodigo().setEditable(false);
+                            persona.getCampoClave().setEditable(true);
+                            persona.getCampoDireccion().setEditable(true);
+                            persona.getCampoSexo().setEditable(true);
+                        }
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, e.getMessage());
                     }
-}
-               
+                }
                 break;
-                
+
             case "Organizacion":
-                if (codigo.isEmpty() == true) {
-                    JOptionPane.showMessageDialog(this, "El codigo se requiere para buscar un banco");
+                if (codigoOrga.isEmpty() == true) {
+                    JOptionPane.showMessageDialog(this, "El codigo se requiere para buscar un cliente");
                     return;
-                }else {try {
-                       nuevaOrganizacion = Principal.organizacionBd.buscarOrganizacion(codigo);
-                       if (Principal.organizacionBd.traerOrganizacion(codigo) == null) {
-                        JOptionPane.showMessageDialog(this, "El cliente no se encuentra en la base de datos");
-                    }else{
-                        
-                        organizacion.getCampoClave().setText(nuevaOrganizacion.getClave());
-                        organizacion.getCampoNombre().setText(nuevaOrganizacion.getNombre());
-                        organizacion.getCampoCodigo().setText(nuevaOrganizacion.getIdentificacion());
-                        organizacion.getCampoDireccion().setText(nuevaOrganizacion.getDireccion());
-                        organizacion.getCantidadDeEmpleados().setText(nuevaOrganizacion.getCantidadEmpleados());
-                        organizacion.getCampoTipoOrganizacion().setText(nuevaOrganizacion.getTipoOrganizacion());
-                        organizacion.getCampoConcepto().setText(nuevaOrganizacion.getConcepto());
-            
-                       }
-                       if (titulo.indexOf("Editar") != -1) {
-                        organizacion.getCampoNombre().setEditable(true);
-                        organizacion.getCampoCodigo().setEditable(false);
-                        organizacion.getCampoClave().setEditable(true);
-                        organizacion.getCampoConcepto().setEditable(true);
-                        organizacion.getCampoDireccion().setEditable(true);
-                        organizacion.getCampoTipoOrganizacion().setEditable(true);
-                    }
+                } else {
+                    try {
+                        nuevaOrganizacion = Principal.organizacionBd.buscarOrganizacion(codigoOrga);
+                        if (Principal.organizacionBd.traerOrganizacion(codigoOrga) == null) {
+                            JOptionPane.showMessageDialog(this, "El cliente no se encuentra en la base de datos");
+                        } else {
+
+                            organizacion.getCampoClave().setText(nuevaOrganizacion.getClave());
+                            organizacion.getCampoNombre().setText(nuevaOrganizacion.getNombre());
+                            organizacion.getCampoCodigo().setText(nuevaOrganizacion.getIdentificacion());
+                            organizacion.getCampoDireccion().setText(nuevaOrganizacion.getDireccion());
+                            organizacion.getCantidadDeEmpleados().setText(nuevaOrganizacion.getCantidadEmpleados());
+                            organizacion.getCampoTipoOrganizacion().setText(nuevaOrganizacion.getTipoOrganizacion());
+                            organizacion.getCampoConcepto().setText(nuevaOrganizacion.getConcepto());
+                            organizacion.getNombreRepresentante().setText(representante.getNombre());
+
+                        }
+                        if (titulo.indexOf("Editar") != -1) {
+                            organizacion.getCampoNombre().setEditable(true);
+                            organizacion.getCampoCodigo().setEditable(false);
+                            organizacion.getCampoClave().setEditable(true);
+                            organizacion.getCampoConcepto().setEditable(true);
+                            organizacion.getCampoDireccion().setEditable(true);
+                            organizacion.getCampoTipoOrganizacion().setEditable(true);
+                            organizacion.getNombreRepresentante().setEditable(true);
+                        }
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, e.getMessage());
                     }
-}
-            
+                }
+
                 break;
             default:
                 throw new AssertionError();
         }
+
+
     }//GEN-LAST:event_BotonBuscarActionPerformed
 
     private void BotonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarActionPerformed
@@ -491,46 +519,126 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
         String codigo = persona.getCampoCodigo().getText();
         String codigo1 = organizacion.getCampoCodigo().getText();
         String titulo = this.getTitle();
-        String respuesta = seleccion();   
-        int decision = JOptionPane.showConfirmDialog(this, "seguro que desea eliminar este cliente", "Advertencia", JOptionPane.YES_NO_OPTION);
-        
-        switch (respuesta) {
-            case "Persona Fisica":
-                
-                if (decision == JOptionPane.YES_OPTION) {
-            try {
-                Principal.personaBd.eliminarPersonaFisica(codigo);
-                JOptionPane.showMessageDialog(this, "Se a eliminado el objeto de la base de datos");
-                BotonLimpiarActionPerformed(evt);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "No se puede eliminar un cliente que no existe en la base de datos");
-            }
-            
-        }
-               
-                break;
-                
-            case "Organizacion":
-                if (decision == JOptionPane.YES_OPTION) {
-            try {
-                Principal.organizacionBd.eliminarOrganizacion(codigo1);
-                JOptionPane.showMessageDialog(this, "Se a eliminado el objeto de la base de datos");
-                BotonLimpiarActionPerformed(evt);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "No se puede eliminar un cliente que no existe en la base de datos");
-            }
-            
-        }
-            
-                break;
-            default:
-                throw new AssertionError();
-        }
-    }//GEN-LAST:event_BotonEliminarActionPerformed
+        String tipoCliente = seleccion();
 
-    public String seleccion(){
+        this.respuesta = JOptionPane.showConfirmDialog(this, "seguro que desea agregar este banco", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            int decision = JOptionPane.showConfirmDialog(this, "seguro que desea eliminar este cliente", "Advertencia", JOptionPane.YES_NO_OPTION);
+
+            switch (tipoCliente) {
+                case "Persona Fisica":
+
+                    if (decision == JOptionPane.YES_OPTION) {
+                        try {
+                            Principal.personaBd.eliminarPersonaFisica(codigo);
+                            JOptionPane.showMessageDialog(this, "Se a eliminado el objeto de la base de datos");
+                            BotonLimpiarActionPerformed(evt);
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(this, "No se puede eliminar un cliente que no existe en la base de datos");
+                        }
+
+                    }
+
+                    break;
+
+                case "Organizacion":
+                    if (decision == JOptionPane.YES_OPTION) {
+                        try {
+                            Principal.organizacionBd.eliminarOrganizacion(codigo1);
+                            JOptionPane.showMessageDialog(this, "Se a eliminado el objeto de la base de datos");
+                            BotonLimpiarActionPerformed(evt);
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(this, "No se puede eliminar un cliente que no existe en la base de datos");
+                        }
+
+                    }
+
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+    }//GEN-LAST:event_BotonEliminarActionPerformed
+    }
+    private void BotonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEditarActionPerformed
+        // TODO add your handling code here:
+        String tipoCliente = seleccion();
+
+        this.respuesta = JOptionPane.showConfirmDialog(this, "seguro que desea agregar este banco", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            switch (tipoCliente) {
+                case "Persona Fisica":
+                    this.clave = String.valueOf(persona.getCampoClave().getPassword());
+                    this.nombre = persona.getCampoNombre().getText();
+                    this.identificacion = persona.getCampoCodigo().getText();
+                    this.direccion = persona.getCampoDireccion().getText();
+                    this.fechaNacimiento = persona.getCampoFechaNacimiento().getDate();
+                    this.sexo = (String) persona.getCampoSexo().getSelectedItem();
+                    this.nuevaPersona.setIdentificacion(identificacion);
+
+                    try {
+                        if (fechaNacimiento == null) {
+                            JOptionPane.showMessageDialog(this, "Es obligatorio ingresar la fecha");
+                        }
+                        this.nuevaPersona.setFechaNacimiento(fechaNacimiento);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "ingrese los datos de manera correcta");
+                        return;
+                    }
+
+                    this.nuevaPersona.setNombre(nombre);
+                    this.nuevaPersona.setClave(clave);
+                    this.nuevaPersona.setDireccion(direccion);
+                    this.nuevaPersona.setSaldo(0);
+                    this.nuevaPersona.setSexo(sexo);
+
+                    try {
+                        Principal.personaBd.editarPersonaFisica(this.nuevaPersona);
+                        if (Principal.personaBd.traerPersonaFisica(identificacion) != null) {
+                            JOptionPane.showMessageDialog(this, "se edito el cliente en la base de datos");
+                            BotonLimpiarActionPerformed(evt);
+                        }
+                    } catch (Exception e) {
+                    }
+                    break;
+
+                case "Organizacion":
+                    this.clave = String.valueOf(organizacion.getCampoClave().getPassword());
+                    this.nombre = organizacion.getCampoNombre().getText();
+                    this.identificacion = organizacion.getCampoCodigo().getText();
+                    this.direccion = organizacion.getCampoDireccion().getText();
+                    this.cantidad = organizacion.getCantidadDeEmpleados().getText();
+                    this.tipoOrganizacion = organizacion.getCampoTipoOrganizacion().getText();
+                    this.concepto = organizacion.getCampoConcepto().getText();
+                    this.nuevaOrganizacion.setIdentificacion(identificacion);
+
+                    this.nuevaOrganizacion.setNombre(nombre);
+                    this.nuevaOrganizacion.setClave(clave);
+                    this.nuevaOrganizacion.setDireccion(direccion);
+                    this.nuevaOrganizacion.setSaldo(0);
+                    this.nuevaOrganizacion.setCantidadEmpleados(cantidad);
+                    this.nuevaOrganizacion.setTipoOrganizacion(tipoOrganizacion);
+                    this.nuevaOrganizacion.setConcepto(concepto);
+
+                    try {
+                        Principal.organizacionBd.editarOrganizacion(this.nuevaOrganizacion);
+                        if (Principal.organizacionBd.traerOrganizacion(identificacion) != null) {
+                            JOptionPane.showMessageDialog(this, "se agrego un cliente al sistema");
+                            BotonLimpiarActionPerformed(evt);
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+    }//GEN-LAST:event_BotonEditarActionPerformed
+    }
+
+    public String seleccion() {
         ButtonModel seleccionBoton = buttonGroup1.getSelection();
-        
+
         AbstractButton decision = null;
         for (Enumeration<AbstractButton> botones = buttonGroup1.getElements(); botones.hasMoreElements();) {
             AbstractButton boton = botones.nextElement();
@@ -539,13 +647,13 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
                 break;
             }
         }
-        
-        if (decision != null){
+
+        if (decision != null) {
             return decision.getText();
         }
-         return "";  
+        return "";
     }
-    
+
     public JButton getBotonAgregar() {
         return BotonAgregar;
     }
@@ -608,12 +716,10 @@ public class VentanaCrudCliente extends javax.swing.JDialog {
     private javax.swing.JButton BotonEditar;
     private javax.swing.JButton BotonEliminar;
     private javax.swing.JButton BotonLimpiar;
-    private javax.swing.JComboBox<String> CampoSucursal;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel dinamicContent;
     private javax.swing.JRadioButton esOrganizacion;
     private javax.swing.JRadioButton esPersonaFisica;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

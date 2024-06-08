@@ -92,7 +92,7 @@ public class CuentaMetodosController {
             }
             encontrado = listaBancos.get(codigo);
             
-            if (!(encontrado == null)) {
+            if (encontrado != null) {
                 return encontrado;
             }else{
                 return null;

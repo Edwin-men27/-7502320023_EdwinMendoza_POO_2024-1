@@ -48,10 +48,10 @@ public class VentanaCrudOrganizacion extends javax.swing.JPanel {
         CantidadDeEmpleados = new javax.swing.JTextField();
         CampoTipoOrganizacion = new javax.swing.JTextField();
         CampoClave = new javax.swing.JPasswordField();
-        SeleccionRepresentante = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         CampoConcepto = new javax.swing.JTextPane();
+        NombreRepresentante = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
@@ -118,7 +118,7 @@ public class VentanaCrudOrganizacion extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel9.setText("Representante");
+        jLabel9.setText("Nombre Representante");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -145,13 +145,23 @@ public class VentanaCrudOrganizacion extends javax.swing.JPanel {
 
         CampoClave.setText("jPasswordField1");
 
-        SeleccionRepresentante.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel10.setText("Concepto");
 
         jScrollPane1.setViewportView(CampoConcepto);
+
+        NombreRepresentante.setFont(new java.awt.Font("Segoe UI", 2, 10)); // NOI18N
+        NombreRepresentante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NombreRepresentanteActionPerformed(evt);
+            }
+        });
+        NombreRepresentante.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                NombreRepresentanteKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -187,9 +197,8 @@ public class VentanaCrudOrganizacion extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(CampoClave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(CantidadDeEmpleados, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(SeleccionRepresentante, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(CantidadDeEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(NombreRepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -215,9 +224,9 @@ public class VentanaCrudOrganizacion extends javax.swing.JPanel {
                     .addComponent(CantidadDeEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9)
-                    .addComponent(SeleccionRepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(NombreRepresentante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
@@ -256,7 +265,7 @@ public class VentanaCrudOrganizacion extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -284,6 +293,14 @@ public class VentanaCrudOrganizacion extends javax.swing.JPanel {
             evt.consume();
         }
     }//GEN-LAST:event_CantidadDeEmpleadosKeyTyped
+
+    private void NombreRepresentanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreRepresentanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NombreRepresentanteActionPerformed
+
+    private void NombreRepresentanteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NombreRepresentanteKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NombreRepresentanteKeyTyped
 
     public JPasswordField getCampoClave() {
         return CampoClave;
@@ -341,13 +358,15 @@ public class VentanaCrudOrganizacion extends javax.swing.JPanel {
         this.CantidadDeEmpleados = CantidadDeEmpleados;
     }
 
-    public JComboBox<String> getSeleccionRepresentante() {
-        return SeleccionRepresentante;
+    public JTextField getNombreRepresentante() {
+        return NombreRepresentante;
     }
 
-    public void setSeleccionRepresentante(JComboBox<String> SeleccionRepresentante) {
-        this.SeleccionRepresentante = SeleccionRepresentante;
+    public void setNombreRepresentante(JTextField NombreRepresentante) {
+        this.NombreRepresentante = NombreRepresentante;
     }
+
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -358,7 +377,7 @@ public class VentanaCrudOrganizacion extends javax.swing.JPanel {
     private javax.swing.JTextField CampoNombre;
     private javax.swing.JTextField CampoTipoOrganizacion;
     private javax.swing.JTextField CantidadDeEmpleados;
-    private javax.swing.JComboBox<String> SeleccionRepresentante;
+    private javax.swing.JTextField NombreRepresentante;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -91,17 +91,17 @@ public class TipoDeCuenta implements Serializable {
         this.cuentas = cuentas;
     }
     
-    public void agregarCuentas(Cuenta objeto){
+    public void agregarTipoCuentas(Cuenta objeto){
         this.cuentas.add(objeto);
     }
     
-    public void removeCuentas(Cuenta objeto){
+    public void removeTipoCuentas(Cuenta objeto){
         this.cuentas.remove(objeto);
     }
 
     @Override
     public String toString() {
-        return "TipoDeCuenta{" + "tipo=" + tipo + ", beneficios=" + beneficios + ", porcentajeAmortizacion=" + porcentajeAmortizacion + ", saldoMinimo=" + saldoMinimo + '}';
+        return tipo;
     }
 
 }

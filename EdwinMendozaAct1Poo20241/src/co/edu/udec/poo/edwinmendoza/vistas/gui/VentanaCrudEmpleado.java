@@ -25,16 +25,19 @@ import javax.swing.JTextField;
  */
 public class VentanaCrudEmpleado extends javax.swing.JDialog {
 
-    Empleado nuevoEmpleado = new Empleado();
-    
-    String clave;
-    String nombre;
-    String identificacion;
-    String direccion;
-    String sexo;
-    String fechaNacimiento;
-    String ciudad;
-    String cargo;
+    public Empleado nuevoEmpleado = new Empleado();
+
+    public String clave;
+    public String nombre;
+    public String identificacion;
+    public String direccion;
+    public String sexo;
+    public Date fechaNacimiento;
+    public String ciudad;
+    public String cargo;
+    public Sucursal afiliado;
+    public int respuesta = 0;
+
     /**
      * Creates new form FormularioEmpleado
      */
@@ -71,10 +74,10 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
         CampoCargo = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        OpcionSucursales = new javax.swing.JComboBox<>();
         CampoFechaNacimiento = new com.toedter.calendar.JDateChooser();
         CampoSexo = new javax.swing.JComboBox<>();
         CampoClave = new javax.swing.JPasswordField();
+        CampoSucursal = new javax.swing.JComboBox<>();
         BotonEliminar = new javax.swing.JButton();
         BotonLimpiar = new javax.swing.JButton();
         BotonAgregar = new javax.swing.JButton();
@@ -166,17 +169,18 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel13.setText("Sucursal");
 
-        OpcionSucursales.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                OpcionSucursalesActionPerformed(evt);
-            }
-        });
-
         CampoSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
 
         CampoClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CampoClaveActionPerformed(evt);
+            }
+        });
+
+        CampoSucursal.setModel(new javax.swing.DefaultComboBoxModel<>(Principal.sucursalBd.arraySucursales()));
+        CampoSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CampoSucursalActionPerformed(evt);
             }
         });
 
@@ -211,7 +215,7 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(OpcionSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(CampoSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
@@ -264,8 +268,8 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(OpcionSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(61, Short.MAX_VALUE))
+                    .addComponent(CampoSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -376,9 +380,9 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
                 .addGap(49, 49, 49))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 91, Short.MAX_VALUE)
+                    .addGap(0, 88, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 92, Short.MAX_VALUE)))
+                    .addGap(0, 89, Short.MAX_VALUE)))
         );
 
         pack();
@@ -387,14 +391,6 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
     private void CampoCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoCodigoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CampoCodigoActionPerformed
-
-    private void OpcionSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpcionSucursalesActionPerformed
-        // TODO add your handling code here:
-//        SucursalMetodosController empleadoBd = new SucursalMetodosController();
-//        LinkedList<Sucursal> listaSucursales = empleadoBd.traerListaSucursales();
-        
-
-    }//GEN-LAST:event_OpcionSucursalesActionPerformed
 
     private void CampoCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CampoCodigoKeyTyped
         // TODO add your handling code here:
@@ -410,40 +406,49 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
 
     private void BotonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarActionPerformed
         // TODO add your handling code here:
-        clave = String.valueOf(CampoClave.getPassword());
-        nombre = CampoNombre.getText();
-        identificacion = CampoCodigo.getText();
-        direccion = CampoDireccion.getText();
-        fechaNacimiento = CampoFechaNacimiento.getDateFormatString();
-        sexo = (String)CampoSexo.getSelectedItem();
-        cargo = CampoCargo.getText();
-        ciudad = CampoCiudad.getText();
-                
-                try {
-                int verificar = Integer.valueOf(identificacion);
-                this.nuevoEmpleado.setIdentificacion(identificacion);
-                    if (fechaNacimiento == null) {
-                        JOptionPane.showMessageDialog(this, "Es obligatorio ingresar la fecha");
-                    }
-                this.nuevoEmpleado.setFechaNacimiento(DeCadenaADate.convertir(fechaNacimiento));
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "ingrese los datos de manera correcta");
-                    return;
-                }
         
-                this.nuevoEmpleado.setNombre(nombre);
-                this.nuevoEmpleado.setClave(clave);
-                this.nuevoEmpleado.setDireccion(direccion);
-                this.nuevoEmpleado.setSaldo(0);
-                this.nuevoEmpleado.setCargo(cargo);
-                this.nuevoEmpleado.setCiudad(ciudad);
-                this.nuevoEmpleado.setSexo(sexo);
-                //--
-        
-                //--
-                Principal.empleadoBd.crearEmpleado(this.nuevoEmpleado);
-                JOptionPane.showMessageDialog(this, "se agrego un cliente al sistema");
-                BotonLimpiarActionPerformed(evt);
+        this.respuesta = JOptionPane.showConfirmDialog(this, "¿seguro que desea agregar este empleado?", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+        this.clave = String.valueOf(CampoClave.getPassword());
+        this.nombre = CampoNombre.getText();
+        this.identificacion = CampoCodigo.getText();
+        this.direccion = CampoDireccion.getText();
+        this.fechaNacimiento = CampoFechaNacimiento.getDate();
+        this.sexo = (String) CampoSexo.getSelectedItem();
+        this.cargo = CampoCargo.getText();
+        this.ciudad = CampoCiudad.getText();
+        this.afiliado = (Sucursal) CampoSucursal.getSelectedItem();
+
+        try {
+            int verificar = Integer.valueOf(this.identificacion);
+            this.nuevoEmpleado.setIdentificacion(this.identificacion);
+            if (this.fechaNacimiento == null) {
+                JOptionPane.showMessageDialog(this, "Es obligatorio ingresar la fecha");
+            }
+            this.nuevoEmpleado.setAfiliado(Principal.sucursalBd.buscarSucursal(afiliado.getCodigo()));
+            this.nuevoEmpleado.setFechaNacimiento(this.fechaNacimiento);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ingrese los datos de manera correcta");
+            return;
+        }
+
+        this.nuevoEmpleado.setNombre(nombre);
+        this.nuevoEmpleado.setClave(clave);
+        this.nuevoEmpleado.setDireccion(direccion);
+        this.nuevoEmpleado.setSaldo(0);
+        this.nuevoEmpleado.setCargo(cargo);
+        this.nuevoEmpleado.setCiudad(ciudad);
+        this.nuevoEmpleado.setSexo(sexo);
+        //--
+
+        //--
+        Principal.empleadoBd.crearEmpleado(this.nuevoEmpleado);
+        afiliado.agregarEmpleados(nuevoEmpleado);
+        Principal.sucursalBd.editarSucursal(afiliado);
+
+        JOptionPane.showMessageDialog(this, "se agrego un cliente al sistema");
+        BotonLimpiarActionPerformed(evt);
+        }
     }//GEN-LAST:event_BotonAgregarActionPerformed
 
     private void BotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarActionPerformed
@@ -451,47 +456,94 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
         String codigo = CampoCodigo.getText();
         String titulo = this.getTitle();
         if (codigo.isEmpty() == true) {
-                    JOptionPane.showMessageDialog(this, "El codigo se requiere para buscar un banco");
-                    return;
-                }else {try {
-                       nuevoEmpleado = Principal.empleadoBd.traerEmpleado(codigo);
-                       if (Principal.personaBd.traerPersonaFisica(codigo) == null) {
-                        JOptionPane.showMessageDialog(this, "El cliente no se encuentra en la base de datos");
-                    }else{
-                        Date fecha = nuevoEmpleado.getFechaNacimiento();
-                        CampoClave.setText(nuevoEmpleado.getClave());
-                        CampoNombre.setText(nuevoEmpleado.getNombre());
-                        CampoCodigo.setText(nuevoEmpleado.getIdentificacion());
-                        CampoDireccion.setText(nuevoEmpleado.getDireccion());
-                        CampoFechaNacimiento.setDate(fecha);
-                        CampoSexo.setToolTipText(nuevoEmpleado.getSexo());
-                        CampoCiudad.setText(nuevoEmpleado.getCiudad());
-                        CampoCargo.setText(nuevoEmpleado.getCargo());
-                       }
-                       if (titulo.indexOf("Editar") != -1) {
-                        CampoNombre.setEditable(true);
-                        CampoCodigo.setEditable(false);
-                        CampoClave.setEditable(true);
-                        CampoDireccion.setEditable(true);
-                        CampoSexo.setEditable(true); 
-                        CampoCargo.setEditable(true);
-                        CampoCiudad.setEditable(true);
-                    }
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, e.getMessage());
-                    }
+            JOptionPane.showMessageDialog(this, "El codigo se requiere para buscar un banco");
+            return;
+        } else {
+            try {
+                nuevoEmpleado = Principal.empleadoBd.buscarEmpleado(codigo);
+                if (Principal.empleadoBd.traerEmpleado(codigo) == null) {
+                    JOptionPane.showMessageDialog(this, "El cliente no se encuentra en la base de datos");
+                } else {
+
+                    Date fecha = nuevoEmpleado.getFechaNacimiento();
+                    CampoClave.setText(nuevoEmpleado.getClave());
+                    CampoNombre.setText(nuevoEmpleado.getNombre());
+                    CampoCodigo.setText(nuevoEmpleado.getIdentificacion());
+                    CampoDireccion.setText(nuevoEmpleado.getDireccion());
+                    CampoFechaNacimiento.setDate(fecha);
+                    CampoSexo.setToolTipText(nuevoEmpleado.getSexo());
+                    CampoCiudad.setText(nuevoEmpleado.getCiudad());
+                    CampoCargo.setText(nuevoEmpleado.getCargo());
+                }
+                if (titulo.indexOf("Editar") != -1) {
+                    CampoNombre.setEditable(true);
+                    CampoCodigo.setEditable(false);
+                    CampoClave.setEditable(true);
+                    CampoDireccion.setEditable(true);
+                    CampoSexo.setEditable(true);
+                    CampoCargo.setEditable(true);
+                    CampoCiudad.setEditable(true);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
     }//GEN-LAST:event_BotonBuscarActionPerformed
     }
     private void BotonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEditarActionPerformed
         // TODO add your handling code here:
+        
+        this.respuesta = JOptionPane.showConfirmDialog(this, "¿seguro que desea realizar estos cambios?", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+        this.clave = String.valueOf(CampoClave.getPassword());
+        this.nombre = CampoNombre.getText();
+        this.identificacion = CampoCodigo.getText();
+        this.direccion = CampoDireccion.getText();
+        this.fechaNacimiento = CampoFechaNacimiento.getDate();
+        this.sexo = (String) CampoSexo.getSelectedItem();
+        this.cargo = CampoCargo.getText();
+        this.ciudad = CampoCiudad.getText();
+        this.afiliado = (Sucursal) CampoSucursal.getSelectedItem();
+        this.nuevoEmpleado.setIdentificacion(identificacion);
+
+        try {
+            if (fechaNacimiento == null) {
+                JOptionPane.showMessageDialog(this, "Es obligatorio ingresar la fecha");
+                return;
+            }
+            this.nuevoEmpleado.setFechaNacimiento(fechaNacimiento);
+            this.nuevoEmpleado.setAfiliado(Principal.sucursalBd.buscarSucursal(afiliado.getCodigo()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ingrese los datos de manera correcta");
+            return;
+        }
+
+        this.nuevoEmpleado.setNombre(nombre);
+        this.nuevoEmpleado.setClave(clave);
+        this.nuevoEmpleado.setDireccion(direccion);
+        this.nuevoEmpleado.setSaldo(0);
+        this.nuevoEmpleado.setSexo(sexo);
+        this.nuevoEmpleado.setCiudad(ciudad);
+        this.nuevoEmpleado.setCargo(cargo);
+
+        try {
+            Principal.empleadoBd.editarEmpleado(this.nuevoEmpleado);
+            afiliado.agregarEmpleados(nuevoEmpleado);
+            Principal.sucursalBd.editarSucursal(afiliado);
+            if (Principal.empleadoBd.traerEmpleado(identificacion) != null) {
+                JOptionPane.showMessageDialog(this, "se edito el empleado en la base de datos");
+                BotonLimpiarActionPerformed(evt);
+            }
+        } catch (Exception e) {
+        }
+        }
     }//GEN-LAST:event_BotonEditarActionPerformed
 
     private void BotonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarActionPerformed
         // TODO add your handling code here:
+        this.respuesta = JOptionPane.showConfirmDialog(this, "¿Esta seguro que desea eliminar este empleado?", "Advertencia", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
         String codigo = CampoCodigo.getText();
-        int decision = JOptionPane.showConfirmDialog(this, "seguro que desea eliminar este cliente", "Advertencia", JOptionPane.YES_NO_OPTION);
-        
-        if (decision == JOptionPane.YES_OPTION) {
+
             try {
                 Principal.empleadoBd.eliminarEmpleado(codigo);
                 JOptionPane.showMessageDialog(this, "Se a eliminado el objeto de la base de datos");
@@ -499,21 +551,36 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "No se puede eliminar un cliente que no existe en la base de datos");
             }
-            
+        
         }
     }//GEN-LAST:event_BotonEliminarActionPerformed
 
     private void BotonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLimpiarActionPerformed
         // TODO add your handling code here:
-        
-         CampoNombre.setText("");
+        String titulo = this.getTitle();
+        if (titulo.indexOf("Editar") != -1) {
+
+            CampoNombre.setEditable(false);
+            CampoCodigo.setEditable(true);
+            CampoDireccion.setEditable(false);
+            CampoSexo.setEditable(false);
+            CampoCargo.setEditable(false);
+            CampoCiudad.setEditable(false);
+            CampoClave.setEditable(false);
+        }
+        CampoNombre.setText("");
+        CampoClave.setText("");
         CampoCodigo.setText("");
         CampoDireccion.setText("");
-        CampoFechaNacimiento.setDateFormatString("");
+        CampoFechaNacimiento.setDate(new Date());
         CampoSexo.setSelectedItem("");
         CampoCargo.setText("");
         CampoCiudad.setText("");
     }//GEN-LAST:event_BotonLimpiarActionPerformed
+
+    private void CampoSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoSucursalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CampoSucursalActionPerformed
 
     public JButton getBotonAgregar() {
         return BotonAgregar;
@@ -619,12 +686,12 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
         this.CampoSexo = CampoSexo;
     }
 
-    public JComboBox<String> getOpcionSucursales() {
-        return OpcionSucursales;
+    public JComboBox<Sucursal> getCampoSucursal() {
+        return CampoSucursal;
     }
 
-    public void setOpcionSucursales(JComboBox<String> OpcionSucursales) {
-        this.OpcionSucursales = OpcionSucursales;
+    public void setCampoSucursal(JComboBox<Sucursal> CampoSucursal) {
+        this.CampoSucursal = CampoSucursal;
     }
 
 
@@ -642,7 +709,7 @@ public class VentanaCrudEmpleado extends javax.swing.JDialog {
     private com.toedter.calendar.JDateChooser CampoFechaNacimiento;
     private javax.swing.JTextField CampoNombre;
     private javax.swing.JComboBox<String> CampoSexo;
-    private javax.swing.JComboBox<String> OpcionSucursales;
+    private javax.swing.JComboBox<Sucursal> CampoSucursal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

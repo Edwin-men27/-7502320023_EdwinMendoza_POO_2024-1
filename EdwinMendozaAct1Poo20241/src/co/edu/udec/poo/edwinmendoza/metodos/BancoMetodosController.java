@@ -4,6 +4,7 @@
  */
 package co.edu.udec.poo.edwinmendoza.metodos;
 
+import co.edu.udec.poo.edwinmendoza.Principal;
 import co.edu.udec.poo.edwinmendoza.persistencia.exceptions.NonexistentEntityException;
 import co.edu.udec.poo.edwinmendoza.persistencia.BancoJpaController;
 import dominio.Banco;
@@ -38,7 +39,7 @@ public class BancoMetodosController {
     public void eliminarBanco(String codigo) throws Exception {
         Banco buscar = encontrarBanco(codigo);
         try {
-            if (existeBanco(buscar)) {
+            if (!existeBanco(buscar)) {
                throw new Exception("El banco no se encuentra agregado en la base de datos");
             }
             bancoBd.destroy(buscar.getCodigoIdentificador());
@@ -57,6 +58,10 @@ public class BancoMetodosController {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
+    }
+    
+    public int cantidadBancos(){
+        return bancoBd.getBancoCount();
     }
 
     public Banco buscarBanco(String id) throws Exception {
@@ -126,4 +131,18 @@ public class BancoMetodosController {
         }
         return false;
     }
+    
+    public Banco[] arrayBancos(){
+        
+        
+        ArrayList<Banco> listado = traerListaBancos();
+        Banco[] elementos = new Banco[listado.size()];
+        for(int i = 0; i < listado.size();i++){
+            elementos[i] = listado.get(i);
+        }
+    
+    return elementos;
+    }
+    
+    
 }

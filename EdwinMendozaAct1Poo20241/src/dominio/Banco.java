@@ -1,7 +1,10 @@
 package dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -68,6 +71,25 @@ public class Banco implements Serializable {
 
     @Override
     public String toString() {
-        return "Banco{" + "nombre=" + nombre + ", codigoIdentificador=" + codigoIdentificador + ", sucursales=" + sucursales + '}';
+        return nombre;
+    }
+    
+    //metodo para convertir un arreglo
+    public Vector<String> convertirAVector(){
+        Vector<String> datos = new Vector<String>();
+        
+        datos.addElement(nombre);
+        datos.addElement(codigoIdentificador);
+        
+        List<String> nombreDatos = new ArrayList<>();
+        
+        for(Sucursal sucursal : sucursales){
+            String nombreSucursales = sucursal.getNombre();
+            nombreDatos.add(nombreSucursales);
+        }
+        
+        datos.addElement(nombreDatos.toString());
+        
+        return datos;
     }
 }

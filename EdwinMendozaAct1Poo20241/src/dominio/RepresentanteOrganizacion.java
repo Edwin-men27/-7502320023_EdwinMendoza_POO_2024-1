@@ -53,7 +53,7 @@ public class RepresentanteOrganizacion implements Serializable {
 
     @Override
     public String toString() {
-        return "RepresentanteOrganizacion{" + "nombre=" + nombre + ", organizacionAfiliada=" + organizacionAfiliada + '}';
+        return nombre;
     }
 
 }

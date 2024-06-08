@@ -4,9 +4,12 @@
  */
 package co.edu.udec.poo.edwinmendoza.vistas.gui;
 
+import com.toedter.calendar.JDateChooser;
+import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -254,6 +257,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         itemBuscarPorXEmpleado.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemBuscarPorXEmpleado.setText("Buscar por x");
+        itemBuscarPorXEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemBuscarPorXEmpleadoActionPerformed(evt);
+            }
+        });
         subMenuReportesEmpleado.add(itemBuscarPorXEmpleado);
 
         itemBuscarPorYEmpleado.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.ALT_DOWN_MASK));
@@ -275,6 +283,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         itemBuscarPorXSucursal.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_0, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemBuscarPorXSucursal.setText("Buscar por x");
+        itemBuscarPorXSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemBuscarPorXSucursalActionPerformed(evt);
+            }
+        });
         subMenuReportesSucursal.add(itemBuscarPorXSucursal);
 
         itemBuscarPorYSucursal.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.ALT_DOWN_MASK));
@@ -473,8 +486,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         JButton miBotones[] = new JButton[]{
                                             ventana.getBotonAgregar()
                                             ,ventana.getBotonEditar(),
-                                            ventana.getBotonAgregarEmpleado(),
-                                            ventana.getRemoverEmpleado()
+
         };
         desabilitarBotones(miBotones);
         
@@ -491,6 +503,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void itemBuscarPorXBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBuscarPorXBancoActionPerformed
         // TODO add your handling code here:
+        VentanaReporteBancos miVentana = new VentanaReporteBancos(this, true);
+        miVentana.setLocationRelativeTo(this);
+        miVentana.setVisible(true);
     }//GEN-LAST:event_itemBuscarPorXBancoActionPerformed
 
     private void itemAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAgregarClienteActionPerformed
@@ -600,6 +615,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                             ,ventana.getBotonEliminar()
         };
         desabilitarBotones(miBotones);
+        JTextComponent campoDeText[] = new JTextComponent[]{
+                                                            ventana.persona.getCampoDireccion(),
+                                                            ventana.persona.getCampoNombre(),
+                                                            ventana.persona.getCampoClave(),
+                                                            ventana.organizacion.getCampoClave(),
+                                                            ventana.organizacion.getCampoConcepto(),
+                                                            ventana.organizacion.getCampoDireccion(),
+                                                            ventana.organizacion.getCantidadDeEmpleados(),
+                                                            ventana.organizacion.getCampoTipoOrganizacion(),
+                                                            ventana.organizacion.getCampoNombre(),
+                                                            ventana.organizacion.getCampoConcepto()
+                                                            };
+        campoDeSoLoLectura(campoDeText);
         ventana.setLocationByPlatform(true);
         ventana.setVisible(true);
         
@@ -671,8 +699,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                             ventana.getBotonAgregar()
                                             ,ventana.getBotonEditar()
                                             ,ventana.getBotonEliminar()
-                                            ,ventana.getBotonAgregarEmpleado(),
-                                            ventana.getRemoverEmpleado()
         };
         desabilitarBotones(miBotones);
         
@@ -693,9 +719,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         ventana.setTitle("Editar Sucursal");
         JButton miBotones[] = new JButton[]{
                                             ventana.getBotonAgregar()
-                                            ,ventana.getBotonEliminar(),
-                                            ventana.getBotonAgregarEmpleado(),
-                                            ventana.getRemoverEmpleado()
+                                            ,ventana.getBotonEliminar()
         };
         desabilitarBotones(miBotones);
         JTextComponent campoDeText[] = new JTextComponent[]{
@@ -771,6 +795,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                                             ventana.getCampoDireccion(),
                                                             ventana.getCampoCiudad()
                                                             };
+        
         campoDeSoLoLectura(campoDeText);
         ventana.setLocationByPlatform(true);
         ventana.setVisible(true);
@@ -855,6 +880,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                             ,ventana.getBotonEditar()
         };
         desabilitarBotones(miBotones);
+        JTextComponent campoDeText[] = new JTextComponent[]{
+                                                            ventana.persona.getCampoDireccion(),
+                                                            ventana.persona.getCampoNombre(),
+                                                            ventana.persona.getCampoClave(),
+                                                            ventana.organizacion.getCampoClave(),
+                                                            ventana.organizacion.getCampoConcepto(),
+                                                            ventana.organizacion.getCampoDireccion(),
+                                                            ventana.organizacion.getCantidadDeEmpleados(),
+                                                            ventana.organizacion.getCampoTipoOrganizacion(),
+                                                            ventana.organizacion.getCampoNombre(),
+                                                            ventana.organizacion.getCampoConcepto()
+                                                            };
+        campoDeSoLoLectura(campoDeText);
         ventana.setLocationByPlatform(true);
         ventana.setVisible(true);
     }//GEN-LAST:event_itemEliminarClienteActionPerformed
@@ -868,9 +906,36 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                             ,ventana.getBotonEliminar()
         };
         desabilitarBotones(miBotones);
+        JTextComponent campoDeText[] = new JTextComponent[]{
+                                                            ventana.persona.getCampoDireccion(),
+                                                            ventana.persona.getCampoNombre(),
+                                                            ventana.persona.getCampoClave(),
+                                                            ventana.organizacion.getCampoClave(),
+                                                            ventana.organizacion.getCampoConcepto(),
+                                                            ventana.organizacion.getCampoDireccion(),
+                                                            ventana.organizacion.getCantidadDeEmpleados(),
+                                                            ventana.organizacion.getCampoTipoOrganizacion(),
+                                                            ventana.organizacion.getCampoNombre(),
+                                                            ventana.organizacion.getCampoConcepto()
+                                                            };
+        campoDeSoLoLectura(campoDeText);
         ventana.setLocationByPlatform(true);
         ventana.setVisible(true);
     }//GEN-LAST:event_itemEditarClienteActionPerformed
+
+    private void itemBuscarPorXSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBuscarPorXSucursalActionPerformed
+        // TODO add your handling code here:
+        VentanaReporteSucursal miVentana = new VentanaReporteSucursal(this, true);
+        miVentana.setLocationRelativeTo(this);
+        miVentana.setVisible(true);
+    }//GEN-LAST:event_itemBuscarPorXSucursalActionPerformed
+
+    private void itemBuscarPorXEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBuscarPorXEmpleadoActionPerformed
+        // TODO add your handling code here:
+        VentanaReporteCuenta miVentana = new VentanaReporteCuenta(this, true);
+        miVentana.setLocationRelativeTo(this);
+        miVentana.setVisible(true);
+    }//GEN-LAST:event_itemBuscarPorXEmpleadoActionPerformed
 
     public void desabilitarBotones(JButton botones[]){
         for(JButton boton: botones){

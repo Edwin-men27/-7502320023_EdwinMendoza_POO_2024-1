@@ -4,6 +4,7 @@
  */
 package co.edu.udec.poo.edwinmendoza.metodos;
 
+import co.edu.udec.poo.edwinmendoza.Principal;
 import static co.edu.udec.poo.edwinmendoza.Principal.tipoCuentaBd;
 import co.edu.udec.poo.edwinmendoza.persistencia.TipoDeCuentaJpaController;
 import co.edu.udec.poo.edwinmendoza.persistencia.exceptions.NonexistentEntityException;
@@ -137,28 +138,15 @@ public class TipoDeCuentaMetodosController {
                 return null;
             }
     }
-    public String[] ArrayTipoCuentas() throws Exception {
-
-        try {
-            ArrayList<TipoDeCuenta> tipoCuentas = traerListaTipoDeCuenta();
-
-            if (tipoCuentas.size() == 0) {
-                throw new Exception("No hay tipos de cuentas para mostrar");
-            }
-
-            String[] arrayDeTiposDeCuentas = new String[tipoCuentas.size()];
-
-            for (int i = 0; i < tipoCuentas.size(); i++) {
-                System.out.println("Tipo de cuenta: " + tipoCuentas.get(i).getTipo() + "asd: " + i);
-                arrayDeTiposDeCuentas[i] = tipoCuentas.get(i).getTipo();
-            }
-
-            return arrayDeTiposDeCuentas;
-
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
+    
+    public TipoDeCuenta[] arrayTipoDeCuenta(){
+        
+        ArrayList<TipoDeCuenta> listado = traerListaTipoDeCuenta();
+        TipoDeCuenta[] elementos = new TipoDeCuenta[listado.size()];
+        for(int i = 0; i < listado.size();i++){
+            elementos[i] = listado.get(i);
         }
-
+    
+    return elementos;
     }
 }

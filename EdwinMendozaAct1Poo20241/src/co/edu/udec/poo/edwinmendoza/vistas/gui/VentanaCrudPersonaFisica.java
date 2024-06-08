@@ -5,15 +5,13 @@
 package co.edu.udec.poo.edwinmendoza.vistas.gui;
 
 import co.edu.udec.poo.edwinmendoza.metodos.DeCadenaADate;
-import co.edu.udec.poo.edwinmendoza.metodos.PersonaFisicaMetodosController;
+
 import com.toedter.calendar.JDateChooser;
 import dominio.PersonaFisica;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.text.JTextComponent;
+
 
 /**
  *

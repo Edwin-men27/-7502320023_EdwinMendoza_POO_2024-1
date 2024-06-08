@@ -1,7 +1,10 @@
 package dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -148,7 +151,39 @@ public class Sucursal implements Serializable {
 
     @Override
     public String toString() {
-        return "Sucursal{" + "nombre=" + nombre + ", direccion=" + direccion + ", codigoPostal=" + codigoPostal + ", informe=" + informe + ", codigo=" + codigo + ", bancoAfiliado=" + bancoAfiliado.getNombre() + '}';
+        return nombre;
     }    
+    
+ 
+    public Vector<String> convertirAVector(){
+        Vector<String> datos = new Vector<String>();
+        
+        datos.addElement(nombre);
+        datos.addElement(codigoPostal);
+        datos.add(codigo);
+        datos.add(direccion);
+        datos.add(informe);
+        datos.add(bancoAfiliado.getNombre());
+        
+        List<String> nombreDatos = new ArrayList<>();
+        
+        for(Empleado empleado : empleados){
+            String nombreEmpleado = empleado.getNombre();
+            nombreDatos.add(nombreEmpleado);
+        }
+        
+        datos.addElement(nombreDatos.toString());
+        
+        List<String> nombreDatos2 = new ArrayList<>();
+        
+        for(Cuenta cuenta : cuentas){
+            String cuentaIdentificacion = cuenta.getCodigoCuentaCliente();
+            nombreDatos2.add(cuentaIdentificacion);
+        }
+        
+        datos.addElement(nombreDatos2.toString());
+        
+        return datos;
+    }
 
 }
