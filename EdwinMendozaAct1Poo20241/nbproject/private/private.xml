@@ -3,19 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/metodos/EmpleadoMetodosController.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/dominio/Banco.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/vistas/gui/Login.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/vistas/gui/VentanaCrudOrganizacion.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/metodos/BancoMetodosController.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/vistas/gui/VentanaReporteBancos.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/dominio/Sucursal.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/vistas/gui/VentanaCrudCliente.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/vistas/gui/VentanaCrudSucursal.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/Principal.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/vistas/gui/VentanaPrincipal.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/vistas/gui/VentanaCrudBanco.java</file>
-            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/metodos/SucursalMetodosController.java</file>
+            <file>file:/C:/Users/Edwin/Documents/GitHub/-7502320023_EdwinMendoza_POO_2024-1/EdwinMendozaAct1Poo20241/src/co/edu/udec/poo/edwinmendoza/vistas/gui/VentanaReporteCuenta.java</file>
         </group>
     </open-files>
 </project-private>
